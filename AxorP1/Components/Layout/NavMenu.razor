@@ -1,6 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inherits MainComponent<NavMenu>
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">AxorP1</a>
+        <span><img class="navbar-brand logo" alt="Logo" src="/images/logo.png" /></span>
     </div>
 </div>
 
@@ -14,11 +16,31 @@
             </NavLink>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="">
-                <span class="syncfusion-blazor-icons syncfusion-blazor-icon-datagrid" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
+        @* LINKS TO EACH STATION *@
+
+        @try
+        {
+            @if (DataSource.Count() != 0)
+            {
+                @foreach (var station in DataSource)
+                {
+                    var path = "station/" + station.StationName.ToString();
+
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="@path" Match="NavLinkMatch.Prefix">
+                            <span class="syncfusion-blazor-icons syncfusion-blazor-icon-datagrid" aria-hidden="true"></span>
+                            @station.StationName
+                        </NavLink>
+                    </div>
+                }
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Error displaying navbar links: {ex.Message} {ex.StackTrace}");
+        }
+
 
     </nav>
 </div>
