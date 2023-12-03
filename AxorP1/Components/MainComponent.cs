@@ -1,4 +1,5 @@
-﻿using AxorP1.Services;
+﻿using AxorP1.Class;
+using AxorP1.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
@@ -11,5 +12,49 @@ namespace AxorP1.Components
         [Inject] protected NavigationManager NavigationManager { get; set; }
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
+        // DataSource List
+        protected List<Station> DataSource = new List<Station>();
+        protected List<Station> PastDataSource = new List<Station>();
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+
+            if (DataSource.Count == 0)
+            {
+                await UpdateDataSourceAsync();
+                await UpdatePastDataSourceAsync(1);
+            }
+        }
+
+
+
+        // Refresh data asynchronously
+        protected async Task UpdateDataSourceAsync()
+        {
+            try
+            {
+                DataSource = await DataProvider.GetDataAsync();
+
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur 
+                Logger.LogError($"Error Data source assignment: {ex.Message} {ex.StackTrace}");
+            }
+        }
+
+        protected async Task UpdatePastDataSourceAsync(int id)
+        {
+            try
+            {
+                PastDataSource = await DataProvider.GetPastDataAsync(id);
+            }
+            catch (Exception ex)
+            {
+                // Handle any exceptions that may occur 
+                Logger.LogError($"Error Past Data source assignment: {ex.Message} {ex.StackTrace}");
+            }
+        }
     }
 }
