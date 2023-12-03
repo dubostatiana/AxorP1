@@ -1,5 +1,6 @@
 ﻿using AxorP1;
 using AxorP1.Components;
+using AxorP1.Services;
 using Syncfusion.Blazor;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddSyncfusionBlazor();
+
+// Custom services
+builder.Services.AddSingleton<DataProvider>();
+
+// ILogger configuration
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddEventLog();
 
 var app = builder.Build();
 //Register Syncfusion license https://help.syncfusion.com/common/essential-studio/licensing/how-to-generate
