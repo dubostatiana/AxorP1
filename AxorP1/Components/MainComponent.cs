@@ -16,6 +16,8 @@ namespace AxorP1.Components
         protected List<Station> DataSource = new List<Station>();
         protected List<Station> PastDataSource = new List<Station>();
 
+        protected static Syncfusion.Blazor.Theme AppTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -29,17 +31,15 @@ namespace AxorP1.Components
 
 
 
-        // Refresh data asynchronously
+        // Update data asynchronously
         protected async Task UpdateDataSourceAsync()
         {
             try
             {
                 DataSource = await DataProvider.GetDataAsync();
-
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that may occur 
                 Logger.LogError($"Error Data source assignment: {ex.Message} {ex.StackTrace}");
             }
         }
@@ -52,7 +52,6 @@ namespace AxorP1.Components
             }
             catch (Exception ex)
             {
-                // Handle any exceptions that may occur 
                 Logger.LogError($"Error Past Data source assignment: {ex.Message} {ex.StackTrace}");
             }
         }

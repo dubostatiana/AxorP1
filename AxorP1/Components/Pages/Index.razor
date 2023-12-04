@@ -10,7 +10,6 @@
 }
 else
 {
-
     <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true"  EnablePersistence="true">
         <DashboardLayoutEvents Created="@Created" Destroyed="@Destroyed" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
         <DashboardLayoutPanels>
@@ -19,12 +18,12 @@ else
             {
                     @foreach (PanelObject Panel in PanelData)
                     {
-                        <DashboardLayoutPanel Id="@Panel.Id" @key="Panel" Row=@Panel.Row Column=@Panel.Column SizeX=@Panel.SizeX SizeY=@Panel.SizeY>
+                        <DashboardLayoutPanel Id="@Panel.Id" Row="@Panel.Row" Column="@Panel.Column" SizeX="@Panel.SizeX" SizeY="@Panel.SizeY">
                             <HeaderTemplate><div>@Panel.Title</div></HeaderTemplate>
                             <ContentTemplate>
                                 <div class="panel">
-                                   @*  <DynamicComponent Type="@Panel.ComponentType" Parameters="" /> *@
-                                </div>
+                                <DynamicComponent Type="@Panel.ComponentType" Parameters="@Panel.Parameters" @key="@refreshCounter"  />
+                            </div>
                             </ContentTemplate>
                        </DashboardLayoutPanel>
                     }
@@ -53,6 +52,10 @@ else
 
     .e-panel-content {
         text-align: center;
+    }
+
+    .e-dashboardlayout.e-control .e-dashboard-gridline-table {
+       
     }
 
     .panel {

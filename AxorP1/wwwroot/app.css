@@ -189,7 +189,7 @@ app {
     }
 
 
-@media (max-width: 767.98px) {
+@media (max-width: 800px) {
     .main .top-row:not(.auth) {
         display: none;
     }
@@ -203,7 +203,7 @@ app {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
     app {
         flex-direction: row;
     }

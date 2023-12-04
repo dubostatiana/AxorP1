@@ -1,55 +1,74 @@
 ﻿
-<SfChart @ref="ChartRef" ID="@ChartId">
-    <ChartPrimaryXAxis ValueType="@XAxisValueType" Title="@XAxisTitle"></ChartPrimaryXAxis>
-    <ChartPrimaryYAxis ValueType="@YAxisValueType" Title="@YAxisTitle"></ChartPrimaryYAxis>
-    <ChartTooltipSettings Enable="@EnableTooltip" Format="@TooltipFormat"></ChartTooltipSettings>
-    <ChartSeriesCollection>
+<SfChart @ref="ChartRef"  ID="@ChartId" Theme="@ChartTheme" Width="100%" Height="100%">
+
+    <ChartArea @attributes="@AreaAttributes">
+        <ChartAreaBorder @attributes="@AreaBorderAttributes"></ChartAreaBorder>
+    </ChartArea>
+
+    <ChartPrimaryXAxis @attributes="@XAxisAttributes">
+        <ChartAxisMajorTickLines @attributes="XAxisLinesAttributes"></ChartAxisMajorTickLines>
+        <ChartAxisLineStyle @attributes="@XAxisLineStyleAttributes"></ChartAxisLineStyle>
+    </ChartPrimaryXAxis>
+
+    <ChartPrimaryYAxis @attributes="@YAxisAttributes">
+        <ChartAxisMajorTickLines @attributes="@YAxisLinesAttributes"></ChartAxisMajorTickLines>
+        <ChartAxisLineStyle @attributes="@YAxisLineStyleAttributes"></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+
+    <ChartTooltipSettings @attributes="@ToolTipAttributes"></ChartTooltipSettings>
+
+    <ChartLegendSettings @attributes="@LegendAttributes"></ChartLegendSettings>
+
+    <ChartCrosshairSettings @attributes="@CrosshairAttributes">
+        <ChartCrosshairLine @attributes="@CrosshairLineAttributes"></ChartCrosshairLine>
+    </ChartCrosshairSettings>
+
+   <ChartSeriesCollection>
         @foreach (var chart in ChartSeriesList)
         {
-            <ChartSeries @attributes="@chart.ChartSeriesAttributes">
-                <ChartMarker Visible="@chart.ChartMarkerVisible">
-                    <ChartDataLabel @attributes="chart.ChartLabelAttributes" ></ChartDataLabel>
+            <ChartSeries @attributes="@chart.SeriesAttributes">
+                <ChartMarker @attributes="@chart.MarkerAttributes">
+                    <ChartDataLabel @attributes="chart.LabelAttributes" ></ChartDataLabel>
                 </ChartMarker>
             </ChartSeries>
         }
-    </ChartSeriesCollection>
+    </ChartSeriesCollection>  
+
 </SfChart>
 
 @code {
-    [Parameter] public SfChart ChartRef { get; set; }
+                public SfChart ChartRef { get; set; } = new SfChart();
     [Parameter] public string ChartId { get; set; } = string.Empty;
-    [Parameter] public Syncfusion.Blazor.Charts.ValueType XAxisValueType { get; set; }
-    [Parameter] public Syncfusion.Blazor.Charts.ValueType YAxisValueType { get; set; }
-    [Parameter] public string XAxisTitle { get; set; } = string.Empty;
-    [Parameter] public string YAxisTitle { get; set; } = string.Empty;
-    [Parameter] public bool EnableTooltip { get; set; } = true;
-    [Parameter] public string TooltipFormat { get; set; } = string.Empty;
+    [Parameter] public Syncfusion.Blazor.Theme ChartTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent ;
 
+    [Parameter] public Dictionary<string, object>? AreaAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? AreaBorderAttributes { get; set; }
+
+    [Parameter] public Dictionary<string, object>? XAxisAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? YAxisAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? XAxisLinesAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? YAxisLinesAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? XAxisLineStyleAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? YAxisLineStyleAttributes { get; set; }
+
+    [Parameter] public Dictionary<string, object>? ToolTipAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? LegendAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? CrosshairAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? CrosshairLineAttributes { get; set; }
 
     [Parameter] public List<ChartSeriesConfig> ChartSeriesList { get; set; }
+
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-
-        if (String.IsNullOrEmpty(TooltipFormat))
-        {
-            TooltipFormat = "${point.x} : <b>${point.y} " + YAxisTitle + "</b>";
-        }
     }
+
 
     public class ChartSeriesConfig
     {
-        public IEnumerable<Object> DataSource { get; set; }
-        public string XName { get; set; }
-        public string YName { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public Syncfusion.Blazor.Charts.ChartSeriesType Type { get; set; }
-        public bool DataLabelVisible { get; set; } = true;
-        public Syncfusion.Blazor.Charts.LabelPosition DataLabelPosition { get; set; } = Syncfusion.Blazor.Charts.LabelPosition.Bottom;
-        public bool ChartMarkerVisible { get; set; } = true;
-    
-        public Dictionary<string, object> ChartSeriesAttributes { get; set; }
-        public Dictionary<string, object> ChartLabelAttributes { get; set; }
+        public Dictionary<string, object>? SeriesAttributes { get; set; }
+        public Dictionary<string, object>? MarkerAttributes { get; set; } = new Dictionary<string, object> { { "Visible", true } };
+        public Dictionary<string, object>? LabelAttributes { get; set; }
     }
 }

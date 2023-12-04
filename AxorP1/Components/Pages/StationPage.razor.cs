@@ -13,5 +13,10 @@ namespace AxorP1.Components.Pages
 		{
 			base.OnParametersSet();
 		}
-	}
+
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+        }
+    }
 }

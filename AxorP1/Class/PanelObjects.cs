@@ -9,5 +9,7 @@
 		public int SizeX { get; set; }
 		public int SizeY { get; set; }
 		public System.Type ComponentType { get; set; }
+
+		public Dictionary<string, object> Parameters { get; set; }
 	}
 }

@@ -1,10 +1,10 @@
-﻿using AxorP1.Class;
+﻿using System;
+using AxorP1.Class;
 
 namespace AxorP1.Services
 {
     public class DataProvider 
     {
-        private List<Station> Data = new List<Station>();
 
         // Axor hydroelectric power stations within Canada
         private List<StationMapData> MapDetails = new List<StationMapData>
@@ -21,14 +21,14 @@ namespace AxorP1.Services
         // Method to get the data
         public async Task<List<Station>> GetDataAsync()
         {
-            Data.Clear();
-            Double num;
+            List<Station> Data = new List<Station>();
+            Random random = new Random();
 
             return await Task.Run(() =>
             {
                 for (int i = 1; i <= 7; i++)
                 {
-                    num = new Random().Next(1, 8);
+                    double num = random.Next(1, 8);
 
                     var station = new Station
                     {
@@ -84,7 +84,7 @@ namespace AxorP1.Services
         }
 
         // Method to get all groups from the existing Data property
-        public List<Group> GetAllGroups()
+        public List<Group> GetAllGroups(List<Station> Data)
         {
             List<Group> allGroups = new List<Group>();
 
