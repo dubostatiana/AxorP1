@@ -1,0 +1,55 @@
+﻿
+<SfChart @ref="ChartRef" ID="@ChartId">
+    <ChartPrimaryXAxis ValueType="@XAxisValueType" Title="@XAxisTitle"></ChartPrimaryXAxis>
+    <ChartPrimaryYAxis ValueType="@YAxisValueType" Title="@YAxisTitle"></ChartPrimaryYAxis>
+    <ChartTooltipSettings Enable="@EnableTooltip" Format="@TooltipFormat"></ChartTooltipSettings>
+    <ChartSeriesCollection>
+        @foreach (var chart in ChartSeriesList)
+        {
+            <ChartSeries @attributes="@chart.ChartSeriesAttributes">
+                <ChartMarker Visible="@chart.ChartMarkerVisible">
+                    <ChartDataLabel @attributes="chart.ChartLabelAttributes" ></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        }
+    </ChartSeriesCollection>
+</SfChart>
+
+@code {
+    [Parameter] public SfChart ChartRef { get; set; }
+    [Parameter] public string ChartId { get; set; } = string.Empty;
+    [Parameter] public Syncfusion.Blazor.Charts.ValueType XAxisValueType { get; set; }
+    [Parameter] public Syncfusion.Blazor.Charts.ValueType YAxisValueType { get; set; }
+    [Parameter] public string XAxisTitle { get; set; } = string.Empty;
+    [Parameter] public string YAxisTitle { get; set; } = string.Empty;
+    [Parameter] public bool EnableTooltip { get; set; } = true;
+    [Parameter] public string TooltipFormat { get; set; } = string.Empty;
+
+
+    [Parameter] public List<ChartSeriesConfig> ChartSeriesList { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (String.IsNullOrEmpty(TooltipFormat))
+        {
+            TooltipFormat = "${point.x} : <b>${point.y} " + YAxisTitle + "</b>";
+        }
+    }
+
+    public class ChartSeriesConfig
+    {
+        public IEnumerable<Object> DataSource { get; set; }
+        public string XName { get; set; }
+        public string YName { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public Syncfusion.Blazor.Charts.ChartSeriesType Type { get; set; }
+        public bool DataLabelVisible { get; set; } = true;
+        public Syncfusion.Blazor.Charts.LabelPosition DataLabelPosition { get; set; } = Syncfusion.Blazor.Charts.LabelPosition.Bottom;
+        public bool ChartMarkerVisible { get; set; } = true;
+    
+        public Dictionary<string, object> ChartSeriesAttributes { get; set; }
+        public Dictionary<string, object> ChartLabelAttributes { get; set; }
+    }
+}

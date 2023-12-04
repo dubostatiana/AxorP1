@@ -1,3 +1,65 @@
-﻿@page "/"
+@page "/"
+@rendermode InteractiveServer
+@inherits IndexBase
 
-<PageTitle>Index</PageTitle>
+<PageTitle>Tableau de bord</PageTitle>
+
+@if (DataSource.Count() == 0) 
+{
+    <h3><em>Loading...</em></h3>
+}
+else
+{
+
+    <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true"  EnablePersistence="true">
+        <DashboardLayoutEvents Created="@Created" Destroyed="@Destroyed" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
+        <DashboardLayoutPanels>
+
+            @try
+            {
+                    @foreach (PanelObject Panel in PanelData)
+                    {
+                        <DashboardLayoutPanel Id="@Panel.Id" @key="Panel" Row=@Panel.Row Column=@Panel.Column SizeX=@Panel.SizeX SizeY=@Panel.SizeY>
+                            <HeaderTemplate><div>@Panel.Title</div></HeaderTemplate>
+                            <ContentTemplate>
+                                <div class="panel">
+                                   @*  <DynamicComponent Type="@Panel.ComponentType" Parameters="" /> *@
+                                </div>
+                            </ContentTemplate>
+                       </DashboardLayoutPanel>
+                    }
+            }
+            catch(Exception ex)
+            {
+                    Logger.LogError($"Error in DashboardLayout loop: {ex.Message} {ex.StackTrace}");
+            }
+            
+
+        </DashboardLayoutPanels>
+    </SfDashboardLayout>
+
+}
+
+
+
+<style>
+   .e-dashboardlayout {
+        overflow: hidden;
+    }
+
+    .e-panel-header {
+        text-align: center;
+    }
+
+    .e-panel-content {
+        text-align: center;
+    }
+
+    .panel {
+        width: inherit;
+        height: inherit;
+        overflow: hidden;
+    }
+
+</style>
+
