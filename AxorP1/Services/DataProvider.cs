@@ -84,13 +84,18 @@ namespace AxorP1.Services
         }
 
         // Method to get all groups from the existing Data property
-        public List<Group> GetAllGroups(List<Station> Data)
+        public List<Group> GetAllGroups(List<Station> Data, string? filterGroupName = null)
         {
             List<Group> allGroups = new List<Group>();
 
             foreach (var station in Data)
             {
                 allGroups.AddRange(station.Groups);
+            }
+
+            if (filterGroupName != null)
+            {
+                return allGroups.Where(d => d.GroupName == filterGroupName).ToList();
             }
 
             return allGroups;

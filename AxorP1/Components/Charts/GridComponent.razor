@@ -1,0 +1,55 @@
+﻿
+<SfGrid @ref="GridRef" DataSource="@DataSource" ID="@GridId">
+    <GridPageSettings @attributes="@GridPageAttributes"></GridPageSettings>
+    <GridEditSettings @attributes="@GridEditAttributes"></GridEditSettings>
+    <GridFilterSettings @attributes="@GridFilterAttributes"></GridFilterSettings>
+    <GridGroupSettings @attributes="@GridGroupAttributes"></GridGroupSettings>
+
+     <GridColumns>
+            @foreach (var column in ColumnsList)
+            {
+                @if(column.Template != null)
+                {
+                    <GridColumn @attributes="@column.ColumnAttributes">
+                          <Template>
+                            @column.Template(context) 
+                          </Template>
+                    </GridColumn>
+                }
+                else
+                {
+                    <GridColumn @attributes="@column.ColumnAttributes"></GridColumn>
+                }
+            }   
+     </GridColumns>
+
+</SfGrid>
+
+
+@code {
+    private SfGrid<object> GridRef { get; set; } = new SfGrid<object>();
+
+    [Parameter] public IEnumerable<object> DataSource { get; set; } = new List<object>();
+    [Parameter] public string GridId { get; set; } = string.Empty;
+    [Parameter] public System.Type TValue { get; set; } = typeof(Station);
+
+    [Parameter] public Dictionary<string, object>? GridPageAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? GridEditAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? GridFilterAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? GridGroupAttributes { get; set; }
+
+    [Parameter] public List<GridColumnsConfig> ColumnsList { get; set; } = new List<GridColumnsConfig>();
+
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+
+    public class GridColumnsConfig
+    {
+        public Dictionary<string, object>? ColumnAttributes { get; set; }
+        public RenderFragment<object>? Template { get; set; }
+    }
+}
+

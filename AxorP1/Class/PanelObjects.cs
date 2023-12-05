@@ -11,5 +11,7 @@
 		public System.Type ComponentType { get; set; }
 
 		public Dictionary<string, object> Parameters { get; set; }
-	}
+
+        public int refreshCounter { get; set; } = 0;
+    }
 }

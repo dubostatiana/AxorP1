@@ -22,7 +22,7 @@ else
                             <HeaderTemplate><div>@Panel.Title</div></HeaderTemplate>
                             <ContentTemplate>
                                 <div class="panel">
-                                <DynamicComponent Type="@Panel.ComponentType" Parameters="@Panel.Parameters" @key="@refreshCounter"  />
+                                <DynamicComponent Type="@Panel.ComponentType" Parameters="@Panel.Parameters" @key="@Panel.refreshCounter"  />
                             </div>
                             </ContentTemplate>
                        </DashboardLayoutPanel>
@@ -63,6 +63,25 @@ else
         height: inherit;
         overflow: hidden;
     }
+
+    /* Grid Group T/A */
+    .groupta {
+        display: inline-block;
+        border-radius: 50%;
+        margin: auto;
+        color: white;
+        padding: 6px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #actif {
+        background-color: red;
+    }
+
+    #inactif {
+        background-color: yellowgreen;
+    }
+
 
 </style>
 

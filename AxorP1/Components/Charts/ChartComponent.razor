@@ -37,7 +37,8 @@
 </SfChart>
 
 @code {
-                public SfChart ChartRef { get; set; } = new SfChart();
+    private SfChart ChartRef { get; set; } = new SfChart();
+
     [Parameter] public string ChartId { get; set; } = string.Empty;
     [Parameter] public Syncfusion.Blazor.Theme ChartTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent ;
 
@@ -56,19 +57,17 @@
     [Parameter] public Dictionary<string, object>? CrosshairAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? CrosshairLineAttributes { get; set; }
 
-    [Parameter] public List<ChartSeriesConfig> ChartSeriesList { get; set; }
-
+    [Parameter] public List<ChartSeriesConfig> ChartSeriesList { get; set; } = new List<ChartSeriesConfig>() ;
 
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
     }
 
-
     public class ChartSeriesConfig
     {
         public Dictionary<string, object>? SeriesAttributes { get; set; }
         public Dictionary<string, object>? MarkerAttributes { get; set; } = new Dictionary<string, object> { { "Visible", true } };
-        public Dictionary<string, object>? LabelAttributes { get; set; }
+        public Dictionary<string, object>? LabelAttributes { get; set; } = new Dictionary<string, object> {{ "Visible", true },{ "Position", Syncfusion.Blazor.Charts.LabelPosition.Bottom }};
     }
 }
