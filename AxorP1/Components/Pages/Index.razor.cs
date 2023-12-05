@@ -2,15 +2,13 @@
 using Syncfusion.Blazor.Layouts;
 using AxorP1.Class;
 using Microsoft.AspNetCore.Http.HttpResults;
-using AxorP1.Components.Charts;
+using AxorP1.Components.Panels;
 using System.Collections.Generic;
-using static AxorP1.Components.Charts.ChartComponent;
+using static AxorP1.Components.Panels.ChartComponent;
 using Microsoft.AspNetCore.Components;
 using AxorP1.Services;
-using Syncfusion.Blazor.Grids;
-using static AxorP1.Components.Charts.GridComponent;
+using static AxorP1.Components.Panels.GridComponent;
 using System;
-using Microsoft.AspNetCore.Components.Rendering;
 
 
 namespace AxorP1.Components.Pages
