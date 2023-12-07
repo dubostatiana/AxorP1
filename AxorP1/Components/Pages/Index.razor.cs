@@ -1,34 +1,41 @@
 ﻿using Timer = System.Timers.Timer;
 using Syncfusion.Blazor.Layouts;
 using AxorP1.Class;
-using Microsoft.AspNetCore.Http.HttpResults;
 using AxorP1.Components.Panels;
-using System.Collections.Generic;
 using static AxorP1.Components.Panels.ChartComponent;
-using Microsoft.AspNetCore.Components;
+using static AxorP1.Components.Panels.GridComponent<AxorP1.Class.Station>;
 using AxorP1.Services;
-using static AxorP1.Components.Panels.GridComponent;
-using System;
+using Microsoft.AspNetCore.Components;
 
 
 namespace AxorP1.Components.Pages
 {
     public class IndexBase : MainComponent<Index>
     {
-        private static Timer timer = new Timer(5000);
+        private static Timer timer = new Timer(5000); // 5s timer 
 
-        protected SfDashboardLayout DashboardLayout { get; set; }
+        protected List<PanelObject> PanelData { get; set; } = new List<PanelObject>(); // List of Dashboard Panels 
 
+        // DashboardLayout attributs
+        protected SfDashboardLayout? DashboardLayout;
         public string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
         public int MaxWidth = 800;
         public int Columns = 4;
 
-        protected List<PanelObject> PanelData { get; set; } = new List<PanelObject>();
+        // List of DynamicComponent references
+        protected DynamicComponent? componentReference {
+            set
+            {
+                if (value is not null) componentsReferences.Add(value);
+            } 
+        }
+        protected List<DynamicComponent> componentsReferences = new List<DynamicComponent>();
 
         protected override async Task OnInitializedAsync()
         {
             base.OnInitialized();
 
+            // Initialize data and panel objects
             await NewDataAsync();
 
             // Starting live update of the Dashboard data every 5s
@@ -37,17 +44,15 @@ namespace AxorP1.Components.Pages
             timer.Enabled = true;
         }
 
-        public void Created(Object args)
-        {
-            Logger.LogInformation($"Dashboard created");
-        }
-
         private async Task NewDataAsync()
         {
+            // Update the data source
             await UpdateDataSourceAsync();
 
+            // Update the panel objects
             InitializedPanelData();
 
+            // Re-render components
             await InvokeAsync(() =>
             {
                 StateHasChanged();
@@ -55,42 +60,68 @@ namespace AxorP1.Components.Pages
 
         }
 
-        public void Destroyed(Object args)
+        // Dashboard event Created
+        public void Created(Object args)
         {
-
+            Logger.LogInformation($"Dashboard created");
         }
 
+        // Dashboard event OnResizeStop
         public void OnResizeStop(Syncfusion.Blazor.Layouts.ResizeArgs args)
         {
-            string resizedPanelId = args.Id;
-
-            RefreshPanel(resizedPanelId);
+            RefreshPanel(args.Id);
         }
 
+        // Dashboard event OnWindowResize
         public async Task OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
         {
-            await DashboardLayout.RefreshAsync();
+            await DashboardLayout?.RefreshAsync();
         }
 
-
+        // Refresh the content of a panel
         public void RefreshPanel(string id)
         {
-            var panelToRefresh = PanelData.FirstOrDefault((panel) => panel.Id == id);
+            // Find the index of the panel 
+            int index = PanelData.FindIndex(obj => obj.Id == id);
 
-            if (panelToRefresh != null)
+            if (index != -1)
             {
-                panelToRefresh.refreshCounter++;
+                // Get the component instance corresponding to the panel
+                var component = componentsReferences[index].Instance;
+
+                // Check the type of the component and perform a refresh
+                if (component is ChartComponent chartComponent)
+                {
+                    chartComponent.Refresh();
+                }
+                else if (component is GridComponent<Station> gridComponent)
+                {
+                    gridComponent.Refresh();
+                }
             }
         }
 
+        // Refresh the content of all panels
         public void RefreshAllPanels()
         {
-            foreach (PanelObject Panel in PanelData)
-            {
-                Panel.refreshCounter++;
+            foreach (var reference in componentsReferences)
+            {   
+                var component = reference.Instance;
+
+                // Check the type of the component and perform a refresh
+                if (component is ChartComponent chartComponent)
+                {
+                    chartComponent.Refresh();
+                }
+                else if (component is GridComponent<Station> gridComponent)
+                {
+                    gridComponent.Refresh();
+                }
             }
         }
 
+
+        // Initialize the dashboard panel objects
         public void InitializedPanelData()
         {
             PanelData = new List<PanelObject>()
@@ -586,11 +617,10 @@ namespace AxorP1.Components.Pages
                           }
                      },
                      // GROUP T/A
-                     new PanelObject() { Id = "panelGroupTA", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Groupe T/A", ComponentType = typeof(GridComponent),
+                     new PanelObject() { Id = "panelGroupTA", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Groupe T/A", ComponentType = typeof(GridComponent<Station>),
                          Parameters = new Dictionary<string, object>
                          {
                              { "GridId", "gridGroupTA" },
-                             { "TValue", typeof(Station) },
                              { "DataSource", DataSource },
                              { "ColumnsList", new List<GridColumnsConfig>
                                 {
@@ -684,11 +714,10 @@ namespace AxorP1.Components.Pages
                          }
                      },
                      // AVANCEMENT PRODUCTION
-                      new PanelObject() { Id = "panelTargetProduction", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Avancement production", ComponentType = typeof(GridComponent),
+                      new PanelObject() { Id = "panelTargetProduction", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Avancement production", ComponentType = typeof(GridComponent<Station>),
                          Parameters = new Dictionary<string, object>
                          {
                              { "GridId", "gridTargetProduction" },
-                             { "TValue", typeof(Station) },
                              { "DataSource", DataSource },
                              { "ColumnsList", new List<GridColumnsConfig>
                                 {

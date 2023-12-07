@@ -22,6 +22,7 @@ namespace AxorP1.Components
         {
             await base.OnInitializedAsync();
 
+            // Initialize DataSource List
             if (DataSource.Count == 0)
             {
                 await UpdateDataSourceAsync();
@@ -30,8 +31,7 @@ namespace AxorP1.Components
         }
 
 
-
-        // Update data asynchronously
+        // Update data source asynchronously
         protected async Task UpdateDataSourceAsync()
         {
             try
@@ -44,6 +44,7 @@ namespace AxorP1.Components
             }
         }
 
+        // Update past data source asynchronously
         protected async Task UpdatePastDataSourceAsync(int id)
         {
             try

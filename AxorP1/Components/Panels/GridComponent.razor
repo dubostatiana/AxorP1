@@ -1,5 +1,9 @@
-﻿
-<SfGrid @ref="GridRef" DataSource="@DataSource" ID="@GridId" Width="100%" Height="100%">
+﻿@typeparam GridTValue
+
+@* GRID COMPONENT *@
+
+<SfGrid @ref="GridRef" TValue="GridTValue" DataSource="@DataSource" ID="@GridId" Width="100%" Height="100%">
+
     <GridPageSettings @attributes="@GridPageAttributes"></GridPageSettings>
     <GridEditSettings @attributes="@GridEditAttributes"></GridEditSettings>
     <GridFilterSettings @attributes="@GridFilterAttributes"></GridFilterSettings>
@@ -8,7 +12,7 @@
      <GridColumns>
             @foreach (var column in ColumnsList)
             {
-                @if(column.Template != null)
+                @if(column.Template != null) // If the column has a template
                 {
                     <GridColumn @attributes="@column.ColumnAttributes">
                           <Template>
@@ -27,11 +31,10 @@
 
 
 @code {
-    private SfGrid<object> GridRef { get; set; } = new SfGrid<object>();
+    private SfGrid<GridTValue>? GridRef;
 
-    [Parameter] public IEnumerable<object> DataSource { get; set; } = new List<object>();
+    [Parameter] public IEnumerable<GridTValue> DataSource { get; set; } = new List<GridTValue>();
     [Parameter] public string GridId { get; set; } = string.Empty;
-    [Parameter] public System.Type TValue { get; set; } = typeof(Station);
 
     [Parameter] public Dictionary<string, object>? GridPageAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? GridEditAttributes { get; set; }
@@ -40,10 +43,14 @@
 
     [Parameter] public List<GridColumnsConfig> ColumnsList { get; set; } = new List<GridColumnsConfig>();
 
-
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+    }
+
+    public void Refresh()
+    {
+        GridRef?.Refresh();
     }
 
     public class GridColumnsConfig

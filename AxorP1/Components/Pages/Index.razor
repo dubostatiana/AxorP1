@@ -11,7 +11,7 @@
 else
 {
     <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true"  EnablePersistence="true">
-        <DashboardLayoutEvents Created="@Created" Destroyed="@Destroyed" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
+        <DashboardLayoutEvents Created="@Created" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
         <DashboardLayoutPanels>
 
             @try
@@ -22,7 +22,7 @@ else
                             <HeaderTemplate><div>@Panel.Title</div></HeaderTemplate>
                             <ContentTemplate>
                                 <div class="panel">
-                                <DynamicComponent Type="@Panel.ComponentType" Parameters="@Panel.Parameters" @key="@Panel.refreshCounter"  />
+                                <DynamicComponent @ref="@componentReference" Type="@Panel.ComponentType" Parameters="@Panel.Parameters" />
                             </div>
                             </ContentTemplate>
                        </DashboardLayoutPanel>

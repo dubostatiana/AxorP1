@@ -1,4 +1,6 @@
 ﻿
+@* CHART COMPONENT *@
+
 <SfChart @ref="ChartRef"  ID="@ChartId" Theme="@ChartTheme" Width="100%" Height="100%">
 
     <ChartArea @attributes="@AreaAttributes">
@@ -37,7 +39,7 @@
 </SfChart>
 
 @code {
-    private SfChart ChartRef { get; set; } = new SfChart();
+    private SfChart? ChartRef;
 
     [Parameter] public string ChartId { get; set; } = string.Empty;
     [Parameter] public Syncfusion.Blazor.Theme ChartTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent ;
@@ -62,6 +64,11 @@
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+    }
+
+    public void Refresh()
+    {
+        ChartRef?.RefreshAsync();
     }
 
     public class ChartSeriesConfig

@@ -1,4 +1,8 @@
-﻿<SfMaps @ref="MapRef" ID="@MapId" Width="100%" Height="100%">
+﻿@typeparam MarkerTValue
+
+@* MAP COMPONENT *@
+
+<SfMaps @ref="MapRef" ID="@MapId" Width="100%" Height="100%">
 
     <MapsEvents OnMarkerClick="@OnMarkerClickEvent"></MapsEvents>
     <MapsTitleSettings Text="@Title"></MapsTitleSettings>
@@ -28,8 +32,8 @@
 
 @code {
 
-      
-    
+    private SfMaps? MapRef;
+
     [Parameter] public string MapId { get; set; } = string.Empty;
     [Parameter] public string Title { get; set; } = string.Empty;
     [Parameter] public string FillShape { get; set; } = string.Empty;
@@ -37,12 +41,20 @@
     [Parameter] public Dictionary<string, object>? MarkerAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? ToolTipAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? ZoomToolBarAttributes { get; set; }
-    [Parameter] public System.Type MarkerTValue { get; set; } = typeof(StationMapData);
 
-  
+
     [Parameter] public EventCallback<MarkerClickEventArgs> OnMarkerClickEvent { get; set; }
 
-    private SfMaps MapRef { get; set; } = new SfMaps();
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+    }
+
+    public void Refresh()
+    {
+        MapRef?.Refresh();
+    }
+
 
     public class MapDataSettings
     {
