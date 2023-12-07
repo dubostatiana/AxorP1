@@ -18,7 +18,7 @@ else
             {
                     @foreach (PanelObject Panel in PanelData)
                     {
-                        <DashboardLayoutPanel Id="@Panel.Id" Row="@Panel.Row" Column="@Panel.Column" SizeX="@Panel.SizeX" SizeY="@Panel.SizeY">
+                       <DashboardLayoutPanel Id="@Panel.Id" Row="@Panel.Row" Column="@Panel.Column" SizeX="@Panel.SizeX" SizeY="@Panel.SizeY">
                             <HeaderTemplate><div>@Panel.Title</div></HeaderTemplate>
                             <ContentTemplate>
                                 <div class="panel">

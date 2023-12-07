@@ -6,11 +6,13 @@ using static AxorP1.Components.Panels.ChartComponent;
 using static AxorP1.Components.Panels.GridComponent<AxorP1.Class.Station>;
 using AxorP1.Services;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Syncfusion.Blazor.Maps;
 
 
 namespace AxorP1.Components.Pages
 {
-    public class IndexBase : MainComponent<Index>
+    public class IndexBase : MainComponent<Index>, IDisposable
     {
         private static Timer timer = new Timer(5000); // 5s timer 
 
@@ -33,8 +35,6 @@ namespace AxorP1.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            base.OnInitialized();
-
             // Initialize data and panel objects
             await NewDataAsync();
 
@@ -42,6 +42,14 @@ namespace AxorP1.Components.Pages
             timer.Elapsed += async (sender, e) => await NewDataAsync();
             timer.AutoReset = true;
             timer.Enabled = true;
+
+            base.OnInitialized();
+        }
+
+        protected override Task OnAfterRenderAsync(bool firstRender)
+        {
+            
+            return base.OnAfterRenderAsync(firstRender);
         }
 
         private async Task NewDataAsync()
@@ -60,11 +68,22 @@ namespace AxorP1.Components.Pages
 
         }
 
+        // Implement IDisposable
+        public void Dispose()
+        {
+            
+        }
+
         // Dashboard event Created
         public void Created(Object args)
         {
             Logger.LogInformation($"Dashboard created");
+
+            Task.Delay(500);
+            RefreshPanel("panelLocalisationMap");  // TO DO : Le map ne s'affiche pas initialement
+
         }
+
 
         // Dashboard event OnResizeStop
         public void OnResizeStop(Syncfusion.Blazor.Layouts.ResizeArgs args)
@@ -73,9 +92,9 @@ namespace AxorP1.Components.Pages
         }
 
         // Dashboard event OnWindowResize
-        public async Task OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
+        public void OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
         {
-            await DashboardLayout?.RefreshAsync();
+            DashboardLayout?.RefreshAsync();
         }
 
         // Refresh the content of a panel
@@ -98,8 +117,13 @@ namespace AxorP1.Components.Pages
                 {
                     gridComponent.Refresh();
                 }
+                else if (component is MapComponent<StationMapData> mapComponent)
+                {
+                    mapComponent.Refresh();
+                }
             }
         }
+
 
         // Refresh the content of all panels
         public void RefreshAllPanels()
@@ -117,6 +141,29 @@ namespace AxorP1.Components.Pages
                 {
                     gridComponent.Refresh();
                 }
+                else if (component is MapComponent<StationMapData> mapComponent)
+                {
+                    mapComponent.Refresh();
+                }
+            }
+        }
+
+        // Map Marker event
+        public void OnMarkerClickEvent(MarkerClickEventArgs args)
+        {
+            try
+            {
+                if (args.Data.TryGetValue("Name", out var station))
+                {
+                    // Navigate to station page
+
+                    NavigationManager.NavigateTo($"station/{station}");
+                    Logger.LogInformation($"Navigate to {station} page");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Error navigating to station page: {ex.Message} {ex.StackTrace}");
             }
         }
 
@@ -631,7 +678,7 @@ namespace AxorP1.Components.Pages
                                             {"Field", nameof(Station.StationName) },
                                             {"HeaderText", "Centrale" },
                                             {"TextAlign", Syncfusion.Blazor.Grids.TextAlign.Center }
-                                        }, 
+                                        },
                                     },
                                     new GridColumnsConfig()
                                     {
@@ -709,7 +756,7 @@ namespace AxorP1.Components.Pages
                                                 };
                                         }
                                     },
-                                } 
+                                }
                              }
                          }
                      },
@@ -794,9 +841,47 @@ namespace AxorP1.Components.Pages
                              }
                          }
                      },
+                      // CANADA MAP
+                      new PanelObject() { Id = "panelLocalisationMap", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Localisation", ComponentType = typeof(MapComponent<StationMapData>),
+                         Parameters = new Dictionary<string, object>
+                         {
+                             { "MapId", "localisationMap" },
+                             { "Title", "Amérique du Nord" },
+                             { "FillShape", "lightgrey" },
+                             { "MapTheme", AppTheme },
+                             { "OnMarkerClickEvent",  new EventCallback<MarkerClickEventArgs>(this, OnMarkerClickEvent) },
+                             {"MarkerAttributes", new Dictionary<string, object>()
+                                {
+                                    {"Visible", true },
+                                    {"DataSource", DataProvider.GetMapDetails() },
+                                    {"Height", 15.0 },
+                                    {"Width", 15.0 },
+                                    {"LatitudeValuePath", nameof(StationMapData.Latitude) },
+                                    {"LongitudeValuePath", nameof(StationMapData.Longitude) },
+                                    {"AnimationDelay", 0.0 },
+                                    {"AnimationDuration", 0.0 },
+
+                                } 
+                             },
+                             {"MarkerToolTipAttributes", new Dictionary<string, object>()
+                                {
+                                    {"Visible", true },
+                                    {"ValuePath", nameof(StationMapData.Name) },
+                                } 
+                             },
+                             {"ZoomToolBarAttributes", new Dictionary<string, object>()
+                                {
+                                    {"HorizontalAlignment", Syncfusion.Blazor.Maps.Alignment.Near },
+                                    {"Orientation", Syncfusion.Blazor.Maps.Orientation.Vertical },
+                                } 
+                             },
+                         }
+                     },
 
 
             };
         }
+
+       
     }
 }

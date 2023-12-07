@@ -2,7 +2,8 @@
 
 @* MAP COMPONENT *@
 
-<SfMaps @ref="MapRef" ID="@MapId" Width="100%" Height="100%">
+
+<SfMaps @ref="MapRef" ID="@MapId" Theme="@MapTheme" Width="100%" Height="100%">
 
     <MapsEvents OnMarkerClick="@OnMarkerClickEvent"></MapsEvents>
     <MapsTitleSettings Text="@Title"></MapsTitleSettings>
@@ -11,10 +12,10 @@
 
         <MapsLayer ShapeData="@MapShapeData" TValue="string">
 
-            <MapsMarkerSettings>
+            <MapsMarkerSettings >
                 <MapsMarker @attributes="@MarkerAttributes" TValue="@MarkerTValue">
                     <MapsMarkerBorder Width="2" Color="#285255"></MapsMarkerBorder>
-                    <MapsMarkerTooltipSettings @attributes="@ToolTipAttributes"></MapsMarkerTooltipSettings>
+                    <MapsMarkerTooltipSettings @attributes="@MarkerToolTipAttributes"></MapsMarkerTooltipSettings>
                 </MapsMarker>
             </MapsMarkerSettings>
 
@@ -34,16 +35,19 @@
 
     private SfMaps? MapRef;
 
+    [Parameter] public Syncfusion.Blazor.Theme MapTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
+
     [Parameter] public string MapId { get; set; } = string.Empty;
     [Parameter] public string Title { get; set; } = string.Empty;
     [Parameter] public string FillShape { get; set; } = string.Empty;
     [Parameter] public bool EnableZoom { get; set; } = true;
     [Parameter] public Dictionary<string, object>? MarkerAttributes { get; set; }
-    [Parameter] public Dictionary<string, object>? ToolTipAttributes { get; set; }
+    [Parameter] public Dictionary<string, object>? MarkerToolTipAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? ZoomToolBarAttributes { get; set; }
 
 
     [Parameter] public EventCallback<MarkerClickEventArgs> OnMarkerClickEvent { get; set; }
+
 
     protected override void OnParametersSet()
     {
