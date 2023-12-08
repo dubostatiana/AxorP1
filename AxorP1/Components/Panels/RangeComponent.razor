@@ -1,0 +1,66 @@
+﻿@page "/RangeComponent"
+@inherits MainComponent<RangeComponent>
+
+@* Diagramme dans le temps *@
+
+@if (PastDataSource.Count() == 0)
+{
+    <h3><em>Loading...</em></h3>
+}
+else
+{
+    
+
+    <div>
+        <SfChart @ref="chartRangeNavigator">
+            <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Interval="0.1" Minimum="0.6" Maximum="1">
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@PastDataSource" XName="DateTime" YName="CentralProduction" Width="2" Type="ChartSeriesType.Spline">
+                </ChartSeries>
+            </ChartSeriesCollection>
+
+            <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+                <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
+            </ChartCrosshairSettings>
+
+            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+            <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        </SfChart>
+
+    </div>
+}
+
+
+@code {
+
+    // RangeNavigator
+    public double ZF = 1;
+    public double ZP = 0;
+    public object value = new object[] { DateTime.Now, DateTime.Now.AddMonths(-12) };
+
+    public SfRangeNavigator? rangeNavigator;
+    public SfChart? chartRangeNavigator;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    // Changed event on RangeNavigator
+    public void OnRangeChanged(ChangedEventArgs args)
+    {
+        ZF = args.ZoomFactor;
+        ZP = args.ZoomPosition;
+        StateHasChanged();
+    }
+
+}
