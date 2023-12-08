@@ -59,6 +59,15 @@
         MapRef?.Refresh();
     }
 
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (isRender is false) { 
+            Refresh(); 
+            isRender = true; 
+        }
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
 
     public class MapDataSettings
     {
