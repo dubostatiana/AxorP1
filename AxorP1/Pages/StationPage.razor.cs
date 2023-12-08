@@ -1,7 +1,8 @@
-﻿using AxorP1.Class;
+﻿using AxorP1.Components;
+using AxorP1.Pages;
 using Microsoft.AspNetCore.Components;
 
-namespace AxorP1.Components.Pages
+namespace AxorP1.Pages
 {
 	public class StationPageBase : MainComponent<StationPage>
 	{

@@ -1,16 +1,17 @@
 ﻿using Timer = System.Timers.Timer;
 using Syncfusion.Blazor.Layouts;
 using AxorP1.Class;
-using AxorP1.Components.Panels;
-using static AxorP1.Components.Panels.ChartComponent;
-using static AxorP1.Components.Panels.GridComponent<AxorP1.Class.Station>;
+using AxorP1.Shared.Components.Panels;
+using static AxorP1.Shared.Components.Panels.ChartComponent;
+using static AxorP1.Shared.Components.Panels.GridComponent<AxorP1.Class.Station>;
 using AxorP1.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Maps;
+using AxorP1.Components;
 
 
-namespace AxorP1.Components.Pages
+namespace AxorP1.Pages
 {
     public class IndexBase : MainComponent<Index>, IDisposable
     {
