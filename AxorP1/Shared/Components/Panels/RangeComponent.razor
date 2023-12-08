@@ -9,22 +9,33 @@
 }
 else
 {
-    
-
     <div>
-        <SfChart @ref="chartRangeNavigator">
+
+        <SfRangeNavigator @ref=rangeNavigator Theme="AppTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years">
+            <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
+            <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
+            <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+            <RangeNavigatorSeriesCollection>
+                <RangeNavigatorSeries DataSource="@PastDataSource" Width="2" XName="@nameof(Station.DateTime)" Type="RangeNavigatorType.Area" YName="@nameof(Station.CentralProduction)">
+                    <RangeNavigatorSeriesBorder  Width="2"></RangeNavigatorSeriesBorder>
+                </RangeNavigatorSeries>
+            </RangeNavigatorSeriesCollection>
+        </SfRangeNavigator>
+    </div>
+    <div>
+        <SfChart @ref="chartRangeNavigator" Theme="@AppTheme">
             <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
 
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" ZoomFactor="@ZF" ZoomPosition="@ZP">
                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis Interval="0.1" Minimum="0.6" Maximum="1">
+            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Double">
                 <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
                 <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
             </ChartPrimaryYAxis>
 
             <ChartSeriesCollection>
-                <ChartSeries DataSource="@PastDataSource" XName="DateTime" YName="CentralProduction" Width="2" Type="ChartSeriesType.Spline">
+                <ChartSeries DataSource="@PastDataSource" XName="@nameof(Station.DateTime)" YName="@nameof(Station.CentralProduction)" Width="2" Type="ChartSeriesType.Spline">
                 </ChartSeries>
             </ChartSeriesCollection>
 
@@ -32,7 +43,7 @@ else
                 <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
             </ChartCrosshairSettings>
 
-            <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+            <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} mW</b>"></ChartTooltipSettings>
             <ChartLegendSettings Visible="false"></ChartLegendSettings>
         </SfChart>
 
@@ -45,7 +56,7 @@ else
     // RangeNavigator
     public double ZF = 1;
     public double ZP = 0;
-    public object value = new object[] { DateTime.Now, DateTime.Now.AddMonths(-12) };
+    public object value = new object[] { DateTime.Now, DateTime.Now.AddMonths(-12) }; // Initial selected range : 12 months from now
 
     public SfRangeNavigator? rangeNavigator;
     public SfChart? chartRangeNavigator;
@@ -53,6 +64,7 @@ else
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
     }
 
     // Changed event on RangeNavigator

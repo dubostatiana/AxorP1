@@ -110,9 +110,9 @@ namespace AxorP1.Services
 
             return await Task.Run(() =>
             {
-                for (int year = 1; year <= 3; year++) // Years
+                for (int year = 0; year <= 3; year++) // Years
                 {
-                    for (int i = 1; i <= 12; i++) // Months
+                    for (int i = 0; i < 12; i++) // Months
                     {
                         double num = random.Next(1, 8);
 
