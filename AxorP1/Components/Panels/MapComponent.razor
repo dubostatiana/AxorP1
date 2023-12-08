@@ -2,72 +2,72 @@
 
 @* MAP COMPONENT *@
 
+@if (IsParentCreated)
+{
+    <SfMaps @ref="MapRef" ID="@MapId" Theme="@MapTheme" Width="100%" Height="100%">
 
-<SfMaps @ref="MapRef" ID="@MapId" Theme="@MapTheme" Width="100%" Height="100%">
+        <MapsEvents OnMarkerClick="@OnMarkerClickEvent"></MapsEvents>
+        <MapsTitleSettings Text="@Title"></MapsTitleSettings>
+        <MapsMargin Bottom="0" Left="0" Right="0" Top="0"></MapsMargin>
 
-    <MapsEvents OnMarkerClick="@OnMarkerClickEvent"></MapsEvents>
-    <MapsTitleSettings Text="@Title"></MapsTitleSettings>
+        <MapsLayers>
 
-    <MapsLayers>
+            <MapsLayer ShapeData="@MapShapeData" TValue="string">
 
-        <MapsLayer ShapeData="@MapShapeData" TValue="string">
+                <MapsMarkerSettings >
+                    <MapsMarker @attributes="@MarkerAttributes" TValue="@MarkerTValue">
+                        <MapsMarkerBorder Width="1" Color="black"></MapsMarkerBorder>
+                        <MapsMarkerTooltipSettings @attributes="@MarkerToolTipAttributes"></MapsMarkerTooltipSettings>
+                    </MapsMarker>
+                </MapsMarkerSettings>
 
-            <MapsMarkerSettings >
-                <MapsMarker @attributes="@MarkerAttributes" TValue="@MarkerTValue">
-                    <MapsMarkerBorder Width="2" Color="#285255"></MapsMarkerBorder>
-                    <MapsMarkerTooltipSettings @attributes="@MarkerToolTipAttributes"></MapsMarkerTooltipSettings>
-                </MapsMarker>
-            </MapsMarkerSettings>
+                <MapsDataLabelSettings Visible="true" LabelPath="name" IntersectionAction="IntersectAction.Hide" ></MapsDataLabelSettings>
+                <MapsShapeSettings Autofill="true"></MapsShapeSettings>
 
-            <MapsShapeSettings Fill="@FillShape"></MapsShapeSettings>
+                <MapsZoomSettings Enable="@EnableZoom">
+                    <MapsZoomToolbarSettings @attributes="@ZoomToolBarAttributes"></MapsZoomToolbarSettings>
+                </MapsZoomSettings>
 
-            <MapsZoomSettings Enable="@EnableZoom">
-                <MapsZoomToolbarSettings @attributes="@ZoomToolBarAttributes"></MapsZoomToolbarSettings>
-            </MapsZoomSettings>
-        </MapsLayer>
+            </MapsLayer>
 
-    </MapsLayers>
+        </MapsLayers>
 
-</SfMaps>
-
+    </SfMaps>
+}
 
 @code {
 
     private SfMaps? MapRef;
+    private bool IsParentCreated { get; set; } = false;  // Initiate the render of the Maps component only if the parent has been created
 
     [Parameter] public Syncfusion.Blazor.Theme MapTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
 
     [Parameter] public string MapId { get; set; } = string.Empty;
     [Parameter] public string Title { get; set; } = string.Empty;
-    [Parameter] public string FillShape { get; set; } = string.Empty;
     [Parameter] public bool EnableZoom { get; set; } = true;
     [Parameter] public Dictionary<string, object>? MarkerAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? MarkerToolTipAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? ZoomToolBarAttributes { get; set; }
 
-
     [Parameter] public EventCallback<MarkerClickEventArgs> OnMarkerClickEvent { get; set; }
 
 
-    protected override void OnParametersSet()
+    public async void Refresh()
     {
-        base.OnParametersSet();
-    }
 
-    public void Refresh()
-    {
+        if (!IsParentCreated)
+        {
+            IsParentCreated = true;
+            StateHasChanged();
+
+            //  Parent Layout is determined after a delay,
+            //  a delay must be provided before refreshing the Maps component
+            await Task.Delay(1000);
+        }
+
         MapRef?.Refresh();
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (isRender is false) { 
-            Refresh(); 
-            isRender = true; 
-        }
-
-        return base.OnAfterRenderAsync(firstRender);
-    }
 
     public class MapDataSettings
     {

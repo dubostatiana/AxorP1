@@ -35,6 +35,8 @@ namespace AxorP1.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await base.OnInitializedAsync();
+
             // Initialize data and panel objects
             await NewDataAsync();
 
@@ -43,14 +45,8 @@ namespace AxorP1.Components.Pages
             timer.AutoReset = true;
             timer.Enabled = true;
 
-            base.OnInitialized();
         }
 
-        protected override Task OnAfterRenderAsync(bool firstRender)
-        {
-            
-            return base.OnAfterRenderAsync(firstRender);
-        }
 
         private async Task NewDataAsync()
         {
@@ -78,10 +74,7 @@ namespace AxorP1.Components.Pages
         public void Created(Object args)
         {
             Logger.LogInformation($"Dashboard created");
-
-            Task.Delay(500);
-            RefreshPanel("panelLocalisationMap");  // TO DO : Le map ne s'affiche pas initialement
-
+            RefreshPanel("panelMap");
         }
 
 
@@ -95,11 +88,15 @@ namespace AxorP1.Components.Pages
         public void OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
         {
             DashboardLayout?.RefreshAsync();
+            RefreshPanel("panelMap");
         }
 
         // Refresh the content of a panel
         public void RefreshPanel(string id)
         {
+            // Avoid IndexOutOfBound exception
+            if (PanelData.Count != componentsReferences.Count) { return; }
+
             // Find the index of the panel 
             int index = PanelData.FindIndex(obj => obj.Id == id);
 
@@ -124,31 +121,7 @@ namespace AxorP1.Components.Pages
             }
         }
 
-
-        // Refresh the content of all panels
-        public void RefreshAllPanels()
-        {
-            foreach (var reference in componentsReferences)
-            {   
-                var component = reference.Instance;
-
-                // Check the type of the component and perform a refresh
-                if (component is ChartComponent chartComponent)
-                {
-                    chartComponent.Refresh();
-                }
-                else if (component is GridComponent<Station> gridComponent)
-                {
-                    gridComponent.Refresh();
-                }
-                else if (component is MapComponent<StationMapData> mapComponent)
-                {
-                    mapComponent.Refresh();
-                }
-            }
-        }
-
-        // Map Marker event
+        // Map Marker OnClick event
         public void OnMarkerClickEvent(MarkerClickEventArgs args)
         {
             try
@@ -842,12 +815,11 @@ namespace AxorP1.Components.Pages
                          }
                      },
                       // CANADA MAP
-                      new PanelObject() { Id = "panelLocalisationMap", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Localisation", ComponentType = typeof(MapComponent<StationMapData>),
+                      new PanelObject() { Id = "panelMap", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Localisation", ComponentType = typeof(MapComponent<StationMapData>),
                          Parameters = new Dictionary<string, object>
                          {
-                             { "MapId", "localisationMap" },
+                             { "MapId", "Map" },
                              { "Title", "Amérique du Nord" },
-                             { "FillShape", "lightgrey" },
                              { "MapTheme", AppTheme },
                              { "OnMarkerClickEvent",  new EventCallback<MarkerClickEventArgs>(this, OnMarkerClickEvent) },
                              {"MarkerAttributes", new Dictionary<string, object>()

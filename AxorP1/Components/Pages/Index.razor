@@ -10,7 +10,7 @@
 }
 else
 {
-    <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true"  EnablePersistence="true">
+    <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true" EnablePersistence="true" DraggableHandle=".e-panel-header">
         <DashboardLayoutEvents Created="@Created" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
         <DashboardLayoutPanels>
 
@@ -42,9 +42,12 @@ else
 
 
 <style>
+
+    /* Dashboard layout */
+
    .e-dashboardlayout {
         overflow: hidden;
-    }
+   }
 
     .e-panel-header {
         text-align: center;
@@ -64,7 +67,7 @@ else
         overflow: hidden;
     }
 
-    /* Grid Group T/A */
+    /* Grid Group T/A Component */
     .groupta {
         display: inline-block;
         border-radius: 50%;
@@ -82,6 +85,18 @@ else
         background-color: yellowgreen;
     }
 
+    /* Localisation Map Component */
+
+    .e-maps {
+       
+    }
+
+    /* Markers  */
+    .e-maps #Map_LayerIndex_0_MarkerGroup path:hover {
+        cursor: pointer;
+    }
+
+    
 
 </style>
 
