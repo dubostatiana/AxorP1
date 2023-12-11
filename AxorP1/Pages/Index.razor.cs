@@ -4,6 +4,7 @@ using AxorP1.Class;
 using AxorP1.Shared.Components.Panels;
 using static AxorP1.Shared.Components.Panels.ChartComponent;
 using static AxorP1.Shared.Components.Panels.GridComponent<AxorP1.Class.Station>;
+using static AxorP1.Shared.Components.Panels.PieChartComponent;
 using AxorP1.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -883,22 +884,36 @@ namespace AxorP1.Pages
                             
                              {"ToolTipAttributes", new Dictionary<string, object>()
                                 {
-
+                                    {"Enable", true },
+                                    {"Format", "${point.x} : <b>${point.y} mW</b>" },
                                 }
                              },
                              {"LegendAttributes", new Dictionary<string, object>()
                                 {
-                                   
+                                    {"Position", Syncfusion.Blazor.Charts.LegendPosition.Bottom },
                                 }
                              },
                              {"SeriesAttributes", new Dictionary<string, object>()
                                 {
-                                  
+                                    { "DataSource", new List<PieData>()
+                                        {
+                                            new PieData { Name = "Station 1", Percentage = 57.28 },
+                                            new PieData { Name = "Station 2", Percentage = 4.73 },
+                                            new PieData { Name = "Station 3", Percentage = 5.96 },
+                                            new PieData { Name = "Station 4", Percentage = 4.37 },
+                                            new PieData { Name = "Station 5", Percentage = 7.48 },
+                                            new PieData { Name = "Station 6", Percentage = 14.06 },
+                                            new PieData { Name = "Station 7", Percentage = 6.12 }
+                                        }
+                                    },
+                                    { "XName", nameof(PieData.Name) },
+                                    { "YName", nameof(PieData.Percentage) },
+                                    { "Name", "Production" }
                                 }
                              },
                               {"LabelAttributes", new Dictionary<string, object>()
                                 {
-
+                                   { "Visible", false }
                                 }
                              },
                          }

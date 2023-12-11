@@ -16,7 +16,7 @@ namespace AxorP1.Pages
 		{
 			await base.OnParametersSetAsync();
 
-            RangeHeaderText = $"Production Centrale Dans Les Dernières Années";
+            RangeHeaderText = $"Production Centrale dans le temps";
 
             Dictionary<string, int> stationIdToNumber = new Dictionary<string, int>
             {
