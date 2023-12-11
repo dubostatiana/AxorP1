@@ -1,65 +1,70 @@
-﻿@page "/RangeComponent"
-@inherits MainComponent<RangeComponent>
+﻿@* RANGENAVIGATOR COMPONENT *@
 
-@* Diagramme dans le temps *@
 
-@if (PastDataSource.Count() == 0)
-{
-    <h3><em>Loading...</em></h3>
-}
-else
-{
-    <div>
+    <div style="width:inherit;margin:1rem;">
+        <div>
+            <SfRangeNavigator @ref=RangeRef Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%">
+                
+                <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
+                <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
+                <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+               
+                <RangeNavigatorSeriesCollection>
+                    <RangeNavigatorSeries DataSource="@DataSource" XName="@XName" YName="@YName" Width="2" Type="RangeNavigatorType.Area">
+                        <RangeNavigatorSeriesBorder  Width="2"></RangeNavigatorSeriesBorder>
+                    </RangeNavigatorSeries>
+                </RangeNavigatorSeriesCollection>
 
-        <SfRangeNavigator @ref=rangeNavigator Theme="AppTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years">
-            <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
-            <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
-            <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
-            <RangeNavigatorSeriesCollection>
-                <RangeNavigatorSeries DataSource="@PastDataSource" Width="2" XName="@nameof(Station.DateTime)" Type="RangeNavigatorType.Area" YName="@nameof(Station.CentralProduction)">
-                    <RangeNavigatorSeriesBorder  Width="2"></RangeNavigatorSeriesBorder>
-                </RangeNavigatorSeries>
-            </RangeNavigatorSeriesCollection>
-        </SfRangeNavigator>
+            </SfRangeNavigator>
+        </div>
+        <div>
+            <SfChart @ref="ChartRef" Theme="@RangeTheme" Width="100%" Height="100%" Title="@HeaderText">
+
+                <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" ZoomFactor="@ZF" ZoomPosition="@ZP">
+                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                </ChartPrimaryXAxis>
+
+                <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Double">
+                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                </ChartPrimaryYAxis>
+
+                <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+                    <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
+                </ChartCrosshairSettings>
+
+                <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} mW</b>"></ChartTooltipSettings>
+                <ChartLegendSettings Visible="false"></ChartLegendSettings>
+
+                <ChartSeriesCollection>
+                    <ChartSeries DataSource="@DataSource" XName="@XName" YName="@YName" Width="2" Type="ChartSeriesType.Spline">
+                    </ChartSeries>
+                </ChartSeriesCollection>
+
+            </SfChart>
+
+        </div>
     </div>
-    <div>
-        <SfChart @ref="chartRangeNavigator" Theme="@AppTheme">
-            <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" ZoomFactor="@ZF" ZoomPosition="@ZP">
-                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-            </ChartPrimaryXAxis>
-            <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Double">
-                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-            </ChartPrimaryYAxis>
-
-            <ChartSeriesCollection>
-                <ChartSeries DataSource="@PastDataSource" XName="@nameof(Station.DateTime)" YName="@nameof(Station.CentralProduction)" Width="2" Type="ChartSeriesType.Spline">
-                </ChartSeries>
-            </ChartSeriesCollection>
-
-            <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
-                <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
-            </ChartCrosshairSettings>
-
-            <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} mW</b>"></ChartTooltipSettings>
-            <ChartLegendSettings Visible="false"></ChartLegendSettings>
-        </SfChart>
-
-    </div>
-}
 
 
 @code {
 
-    // RangeNavigator
-    public double ZF = 1;
-    public double ZP = 0;
-    public object value = new object[] { DateTime.Now, DateTime.Now.AddMonths(-12) }; // Initial selected range : 12 months from now
+    private SfRangeNavigator? RangeRef;
+    private SfChart? ChartRef;
 
-    public SfRangeNavigator? rangeNavigator;
-    public SfChart? chartRangeNavigator;
+    [Parameter] public Syncfusion.Blazor.Theme RangeTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
+    [Parameter] public IEnumerable<object> DataSource { get; set; } = new List<object>();
+    [Parameter] public string HeaderText { get; set; } = string.Empty;
+
+    private string XName = nameof(Station.DateTime);
+    private string YName = nameof(Station.CentralProduction);
+
+    private double ZF = 1;
+    private double ZP = 0;
+    private object value = new object[] { DateTime.Now, DateTime.Now.AddMonths(-12) }; // Initial selected range : 12 months from now
+
 
     protected override void OnInitialized()
     {

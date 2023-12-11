@@ -22,7 +22,7 @@ namespace AxorP1.Pages
         // DashboardLayout attributs
         protected SfDashboardLayout? DashboardLayout;
         public string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
-        public int MaxWidth = 800;
+        public int MaxWidth = 799;
         public int Columns = 4;
 
         // List of DynamicComponent references
@@ -32,6 +32,9 @@ namespace AxorP1.Pages
                 if (value is not null) componentsReferences.Add(value);
             } 
         }
+
+        protected bool IsStacked { get; private set; }
+
         protected List<DynamicComponent> componentsReferences = new List<DynamicComponent>();
 
         protected override async Task OnInitializedAsync()
@@ -45,7 +48,6 @@ namespace AxorP1.Pages
             timer.Elapsed += async (sender, e) => await NewDataAsync();
             timer.AutoReset = true;
             timer.Enabled = true;
-
         }
 
 
@@ -75,6 +77,10 @@ namespace AxorP1.Pages
         public void Created(Object args)
         {
             Logger.LogInformation($"Dashboard created");
+
+            IsLayoutStackedAsync();
+
+            RefreshPanel("panelPieChart");
             RefreshPanel("panelMap");
         }
 
@@ -86,10 +92,12 @@ namespace AxorP1.Pages
         }
 
         // Dashboard event OnWindowResize
-        public void OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
+        public async Task OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
         {
-            DashboardLayout?.RefreshAsync();
+            await IsLayoutStackedAsync();
+
             RefreshPanel("panelMap");
+            DashboardLayout?.RefreshAsync();
         }
 
         // Refresh the content of a panel
@@ -119,6 +127,22 @@ namespace AxorP1.Pages
                 {
                     mapComponent.Refresh();
                 }
+                else if (component is PieChartComponent pieComponent)
+                {
+                    pieComponent.Refresh();
+                }
+            }
+        }
+
+        // Verify if the DashboardLayout panels are stacked
+        public async Task IsLayoutStackedAsync()
+        {
+            double width = await JSRuntime.InvokeAsync<double>("getWidth");
+            IsStacked = (width <= MaxWidth) ? true : false;
+
+            if (IsStacked)
+            {
+                StateHasChanged();
             }
         }
 
@@ -847,6 +871,35 @@ namespace AxorP1.Pages
                                     {"HorizontalAlignment", Syncfusion.Blazor.Maps.Alignment.Near },
                                     {"Orientation", Syncfusion.Blazor.Maps.Orientation.Vertical },
                                 } 
+                             },
+                         }
+                     },
+                      // STATISTICS
+                      new PanelObject() { Id = "panelPieChart", Column = 0, Row = 0, SizeX = 1, SizeY = 1, Title = "Statistiques", ComponentType = typeof(PieChartComponent),
+                         Parameters = new Dictionary<string, object>
+                         {
+                             { "PieChartId", "pieChart" },
+                             { "ChartTheme", AppTheme },
+                            
+                             {"ToolTipAttributes", new Dictionary<string, object>()
+                                {
+
+                                }
+                             },
+                             {"LegendAttributes", new Dictionary<string, object>()
+                                {
+                                   
+                                }
+                             },
+                             {"SeriesAttributes", new Dictionary<string, object>()
+                                {
+                                  
+                                }
+                             },
+                              {"LabelAttributes", new Dictionary<string, object>()
+                                {
+
+                                }
                              },
                          }
                      },

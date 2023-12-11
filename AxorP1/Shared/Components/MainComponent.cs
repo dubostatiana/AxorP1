@@ -26,7 +26,6 @@ namespace AxorP1.Components
             if (DataSource.Count == 0)
             {
                 await UpdateDataSourceAsync();
-                await UpdatePastDataSourceAsync(1);
             }
         }
 
