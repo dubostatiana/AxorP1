@@ -248,7 +248,7 @@ app {
 }
 
 
-
+/* Station page*/
 
 .StationContainer {
     position: relative;
@@ -257,21 +257,110 @@ app {
 .StationContainer img {
     width: 100%;
 }
-
-.StationContainer span {
-     position:absolute;
-     font-size: small;
+.circle {
+    padding: 8px;
+    border-radius: 50%;
+    transition : 1s ease-in-out;
 }
 
-    .StationContainer #amont {
-       top:7%;
-       left:5%;
+.StationContainer span {
+    position: absolute;
+    font-size: x-small;
+    transition: 1s ease-in-out;
+}
+
+    .StationContainer #upstream {
+       top:8.7%;
+       left:7%;
+    }
+    .StationContainer #downstream {
+        top: 78%;
+        left: 81%;
+    }
+    .StationContainer #fall {
+        top: 66.5%;
+        left: 25%;
+    }
+    .StationContainer #production {
+        top: 9%;
+        left: 82%;
+    }
+    .StationContainer #flowrate {
+        top: 85.5%;
+        left: 62.5%;
+    }
+    .StationContainer #monthTarget {
+        top: 86.8%;
+        left: 11%;
+    }
+    .StationContainer #monthActual {
+        top: 86.8%;
+        left: 24%;
+    }
+    .StationContainer #yearTarget {
+        top: 93.2%;
+        left: 11%;
+    }
+    .StationContainer #yearActual {
+        top: 93.2%;
+        left: 24%;
+    }
+    .StationContainer #monthPercent {
+        top: 86.8%;
+        left: 35.5%;
+    }
+    .StationContainer #yearPercent {
+        top: 93.2%;
+        left: 35.5%;
+    }
+    .StationContainer #group1TA {
+        top: 11%;
+        left: 52.6%;
+    }
+    .StationContainer #group2TA {
+        top: 11%;
+        left: 58.6%;
+    }
+    .StationContainer #group1Flowrate {
+        top: 43%;
+        left: 35.5%;
+    }
+    .StationContainer #group2Flowrate {
+        top: 43%;
+        left: 43%;
+    }
+    .StationContainer #group1Production {
+        top: 57%;
+        left: 51%;
+    }
+    .StationContainer #group2Production {
+        top: 57%;
+        left: 58%;
+    }
+    .StationContainer #group1FineGrid {
+        top: 11.5%;
+        left: 34.5%;
+    }
+    .StationContainer #group2FineGrid {
+        top: 11.5%;
+        left: 42%;
+    }
+    .StationContainer #group1CoarseGrid {
+        top: 17.5%;
+        left: 34.5%;
+    }
+    .StationContainer #group2CoarseGrid {
+        top: 17.5%;
+        left: 42%;
     }
 
-@media (min-width: 550px) {
-    .StationContainer #amont {
-        top: 8%;
-        left: 6%;
+
+@media (min-width: 650px) {
+    .StationContainer span {
+        font-size: small;
+    }
+    .circle {
+        padding: 10px;
     }
 }
 
@@ -281,9 +370,8 @@ app {
         font-size: medium;
     }
 
-    StationContainer #amont {
-        top: 7%;
-        left: 5%;
+    .circle {
+        padding: 12px;
     }
    
 }
@@ -293,9 +381,30 @@ app {
     .StationContainer span {
         font-size: large;
     }
+    .circle {
+        padding: 16px;
+    }
 
-    .StationContainer #amont {
-        top: 9%;
-        left: 7%;
+}
+
+@media (min-width: 1500px) {
+
+    .StationContainer span {
+        font-size: x-large;
+    }
+
+    .circle {
+        padding: 20px;
+    }
+}
+
+@media (min-width: 1800px) {
+
+    .StationContainer span {
+        font-size: x-large;
+    }
+
+    .circle {
+        padding: 30px;
     }
 }

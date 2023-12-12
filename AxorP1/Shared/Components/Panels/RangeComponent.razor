@@ -18,11 +18,11 @@
             </SfRangeNavigator>
         </div>
         <div>
-            <SfChart @ref="ChartRef" Theme="@RangeTheme" Width="100%" Height="100%" Title="@HeaderText">
+        <SfChart @ref="ChartRef" Theme="@RangeTheme" Width="100%" Height="100%" Title="@HeaderText">
 
                 <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
 
-                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" ZoomFactor="@ZF" ZoomPosition="@ZP">
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Interval="1" IntervalType="IntervalType.Months" ZoomFactor="@ZF" ZoomPosition="@ZP" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                 </ChartPrimaryXAxis>
 
@@ -35,7 +35,7 @@
                     <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
                 </ChartCrosshairSettings>
 
-                <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} mW</b>"></ChartTooltipSettings>
+                <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} mW</b>" ></ChartTooltipSettings>
                 <ChartLegendSettings Visible="false"></ChartLegendSettings>
 
                 <ChartSeriesCollection>

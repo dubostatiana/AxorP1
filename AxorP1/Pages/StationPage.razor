@@ -6,16 +6,55 @@
 <h3>@id</h3>
 
 
+
 @if (DataSource.Count() == 0 || Station == null)
 {
     <h3><em>Loading...</em></h3>
 }
 else
 {
-
     <div class="StationContainer">
         <img src="/images/StationImage.png">
-        <span id="amont">@Station.UpstreamLevel m</span>
+        <span id="upstream">@Station.UpstreamLevel m</span>
+        <span id="downstream">@Station.DownstreamLevel m</span>
+        <span id="fall">@Station.FallHeight m</span>
+        <span id="production">@Station.CentralProduction mW</span>
+        <span id="flowrate">@Station.TotalFlowRate m²/s</span>
+        <span id="monthTarget">@Station.MonthlyProductionTarget mW</span>
+        <span id="monthActual">@Station.MonthlyProductionActual mW</span>
+        <span id="yearTarget">@Station.AnnualProductionTarget mW</span>
+        <span id="yearActual">@Station.AnnualProductionActual mW</span>
+        <span id="monthPercent">@Math.Round(Station.MonthlyPercentage * 100, 0)%</span>
+        <span id="yearPercent">@Math.Round(Station.AnnualPercentage * 100, 0)%</span>
+
+        @if(Station.Groups.Count > 0)
+        {
+            Group group1 = Station.Groups[0];
+            var color = group1.GroupTA ? "red" : "green";
+
+            <span class="circle" id="group1TA" style="background-color:@color"></span>
+            <span id="group1Flowrate">@group1.FlowRate m²/s</span>
+            <span id="group1Production">@group1.Production mW</span>
+            <span id="group1FineGrid">@group1.FineGridDifferential m</span>
+            <span id="group1CoarseGrid">@group1.CoarseGridDifferential m</span>
+        }
+
+        @if (Station.Groups.Count > 1)
+        {
+            Group group2 = Station.Groups[1];
+            var color = group2.GroupTA ? "red" : "green";
+
+            <span class="circle" id="group2TA" style="background-color:@color"></span>
+            <span id="group2Flowrate">@group2.FlowRate m²/s</span>
+            <span id="group2Production">@group2.Production mW</span>
+            <span id="group2FineGrid">@group2.FineGridDifferential m</span>
+            <span id="group2CoarseGrid">@group2.CoarseGridDifferential m</span>
+        }
+        else
+        {
+            <span class="round" id="group2TA" style="background-color:grey"></span>
+        }
+
     </div>
 }
 
@@ -25,5 +64,6 @@ else
 }
 else
 {
-  <RangeComponent DataSource="@PastDataSource" RangeTheme="@AppTheme" HeaderText="@RangeHeaderText"></RangeComponent>
+  <RangeComponent DataSource="@PastDataSource" RangeTheme="@AppTheme" HeaderText="Production Centrale dans le temps"></RangeComponent>
 }
+
