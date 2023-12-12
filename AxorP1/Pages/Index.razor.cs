@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Maps;
 using AxorP1.Components;
+using System.Runtime.CompilerServices;
 
 
 namespace AxorP1.Pages
@@ -25,6 +26,8 @@ namespace AxorP1.Pages
         public string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
         public int MaxWidth = 799;
         public int Columns = 4;
+        public double[] Spacing = new double[] { 10, 10 };
+        public double Ratio = 160 / 100;
 
         // List of DynamicComponent references
         protected DynamicComponent? componentReference {
@@ -61,11 +64,10 @@ namespace AxorP1.Pages
             InitializedPanelData();
 
             // Re-render components
-            await InvokeAsync(() =>
+            if(DashboardLayout != null) 
             {
-                StateHasChanged();
-            });
-
+                await DashboardLayout.RefreshAsync();
+            }
         }
 
         // Implement IDisposable
@@ -75,12 +77,12 @@ namespace AxorP1.Pages
         }
 
         // Dashboard event Created
-        public void Created(Object args)
+        public async void Created(Object args)
         {
             Logger.LogInformation($"Dashboard created");
 
-            IsLayoutStackedAsync();
-
+            await IsLayoutStackedAsync();
+           
             RefreshPanel("panelPieChart");
             RefreshPanel("panelMap");
         }

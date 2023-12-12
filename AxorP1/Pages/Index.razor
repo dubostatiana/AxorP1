@@ -10,7 +10,7 @@
 }
 else
 {
-    <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true" EnablePersistence="true" DraggableHandle=".e-panel-header">
+    <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" CellSpacing="@Spacing" CellAspectRatio="@Ratio" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true" EnablePersistence="true" DraggableHandle=".e-panel-header">
         <DashboardLayoutEvents Created="@Created" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
         <DashboardLayoutPanels>
 
@@ -49,10 +49,14 @@ else
 
     .e-panel-header {
         text-align: center;
+        padding:10px;
+        height:auto;
+
     }
 
     .e-panel-content {
         text-align: center;
+        padding-bottom: 20px;
     }
 
     .e-dashboardlayout.e-control .e-dashboard-gridline-table {
@@ -60,10 +64,11 @@ else
 
 
     .panel {
-        width: inherit;
-        height: inherit;
+        width: 100%;
+        height: 100%;
         overflow: hidden;
     }
+
 
     /* Grid Group T/A Component */
     .groupta {
