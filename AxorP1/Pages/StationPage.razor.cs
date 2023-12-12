@@ -11,10 +11,14 @@ namespace AxorP1.Pages
 
         private int num;
         protected string RangeHeaderText { get; set; } = string.Empty;
+        
+        protected Class.Station? Station { get; set; }
 
         protected override async Task OnParametersSetAsync()
 		{
 			await base.OnParametersSetAsync();
+
+            Station = DataSource.FirstOrDefault(obj => obj.StationName == id);
 
             RangeHeaderText = $"Production Centrale dans le temps";
 

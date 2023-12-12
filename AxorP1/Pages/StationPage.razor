@@ -5,6 +5,20 @@
 
 <h3>@id</h3>
 
+
+@if (DataSource.Count() == 0 || Station == null)
+{
+    <h3><em>Loading...</em></h3>
+}
+else
+{
+
+    <div class="StationContainer">
+        <img src="/images/StationImage.png">
+        <span id="amont">@Station.UpstreamLevel m</span>
+    </div>
+}
+
 @if (PastDataSource.Count() == 0)
 {
     <h3><em>Loading...</em></h3>
@@ -13,5 +27,3 @@ else
 {
   <RangeComponent DataSource="@PastDataSource" RangeTheme="@AppTheme" HeaderText="@RangeHeaderText"></RangeComponent>
 }
-
-
