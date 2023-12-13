@@ -6,10 +6,14 @@
 
 @if (DataSource.Count() == 0) 
 {
-    <h3><em>Loading...</em></h3>
+    <div class="loading-circle-container">
+        <div class="loading-circle">
+        </div>
+    </div>
 }
 else
 {
+  <div class="dashboard-container">
     <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" CellSpacing="@Spacing" CellAspectRatio="@Ratio" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true" EnablePersistence="true" DraggableHandle=".e-panel-header">
         <DashboardLayoutEvents Created="@Created" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
         <DashboardLayoutPanels>
@@ -36,16 +40,28 @@ else
 
         </DashboardLayoutPanels>
     </SfDashboardLayout>
-
+  </div>
 }
 
 <style>
 
     /* Dashboard layout */
 
-   .e-dashboardlayout {
+    .dashboard-container{
+        margin: 10px;
         overflow: hidden;
-   }
+        touch-action: none;
+    }
+
+    .dashboard-container::before {
+        content:"" ;
+        background-color: #f3f2f1;
+        position:absolute;
+        width:100%;
+        height:100%;
+        top:0;
+        left:0;
+    }
 
     .e-panel-header {
         text-align: center;
@@ -89,10 +105,6 @@ else
     }
 
     /* Localisation Map Component */
-
-    .e-maps {
-       
-    }
 
     /* Markers  */
     .e-maps #Map_LayerIndex_0_MarkerGroup path:hover {

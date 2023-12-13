@@ -7,9 +7,12 @@
 
 
 
-@if (DataSource.Count() == 0 || Station == null)
+@if (DataSource.Count == 0 || Station == null || PastDataSource.Count() == 0)
 {
-    <h3><em>Loading...</em></h3>
+    <div class="loading-circle-container">
+        <div class="loading-circle">
+        </div>
+    </div>
 }
 else
 {
@@ -32,7 +35,7 @@ else
             Group group1 = Station.Groups[0];
             var color = group1.GroupTA ? "red" : "green";
 
-            <span class="circle" id="group1TA" style="background-color:@color"></span>
+            <span class="groupCircle" id="group1TA" style="background-color:@color"></span>
             <span id="group1Flowrate">@group1.FlowRate m²/s</span>
             <span id="group1Production">@group1.Production mW</span>
             <span id="group1FineGrid">@group1.FineGridDifferential m</span>
@@ -44,7 +47,7 @@ else
             Group group2 = Station.Groups[1];
             var color = group2.GroupTA ? "red" : "green";
 
-            <span class="circle" id="group2TA" style="background-color:@color"></span>
+            <span class="groupCircle" id="group2TA" style="background-color:@color"></span>
             <span id="group2Flowrate">@group2.FlowRate m²/s</span>
             <span id="group2Production">@group2.Production mW</span>
             <span id="group2FineGrid">@group2.FineGridDifferential m</span>
@@ -52,18 +55,11 @@ else
         }
         else
         {
-            <span class="circle" id="group2TA" style="background-color:grey"></span>
+            <span class="groupCircle" id="group2TA" style="background-color:grey"></span>
         }
 
     </div>
-}
 
-@if (PastDataSource.Count() == 0)
-{
-    <h3><em>Loading...</em></h3>
-}
-else
-{
   <RangeComponent DataSource="@PastDataSource" RangeTheme="@AppTheme" HeaderText="Production Centrale dans le temps"></RangeComponent>
 }
 

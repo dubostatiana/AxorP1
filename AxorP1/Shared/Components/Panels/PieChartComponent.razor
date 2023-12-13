@@ -7,7 +7,7 @@
 
         <AccumulationChartTooltipSettings @attributes="@ToolTipAttributes"></AccumulationChartTooltipSettings>
 
-        <AccumulationChartLegendSettings @attributes="@LegendAttributes" ToggleVisibility="false" TextWrap="TextWrap.Wrap" >     
+        <AccumulationChartLegendSettings @attributes="@LegendAttributes" ToggleVisibility="false" TextWrap="TextWrap.Wrap"  >     
         </AccumulationChartLegendSettings>
 
         <AccumulationChartSeriesCollection>
@@ -37,7 +37,7 @@
 
     [Parameter] public Dictionary<string, object>? SeriesAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? LabelAttributes { get; set; }
-    
+
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
@@ -52,6 +52,21 @@
         }
 
         PieChartRef?.Refresh();
+    }
+
+    protected override bool ShouldRender()
+    {
+        base.ShouldRender();
+
+        // Check if any points are selected in the chart
+        if (PieChartRef?.SelectedDataIndexes == null)
+        {
+            return true; // Render when no points are selected
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public class PieData
