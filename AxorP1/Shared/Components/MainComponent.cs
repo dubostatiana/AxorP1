@@ -17,6 +17,7 @@ namespace AxorP1.Components
         protected List<Station> PastDataSource = new List<Station>();
 
         protected static Syncfusion.Blazor.Theme AppTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
+        protected static int MaxWidth = 799;
 
         protected override async Task OnInitializedAsync()
         {

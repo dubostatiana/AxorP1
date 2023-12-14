@@ -24,7 +24,6 @@ namespace AxorP1.Pages
         // DashboardLayout attributs
         protected SfDashboardLayout? DashboardLayout;
         public string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
-        public int MaxWidth = 799;
         public int Columns = 4;
         public double[] Spacing = new double[] { 10, 10 };
         public double Ratio = 160 / 100;

@@ -1,46 +1,158 @@
-﻿@inherits MainComponent<NavMenu>
+﻿@using Syncfusion.Blazor.Buttons
+@inherits MainComponent<NavMenu>
 
-<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <span><img class="navbar-brand logo" alt="Logo" src="/images/logo.png" /></span>
-    </div>
-</div>
+<div id="control-section">
+<div id="wrapper">
+        @*Initialize the Sidebar component*@
+        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true">
+            <ChildContent>
+                <nav class="flex-column">
+                    @*Toggle button for the sidebar*@
+                    <SfButton CssClass="@ToggleClass" OnClick="@ToggleSidebar" class="nav-item nav-toggler"></SfButton>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
-
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
-                <span class="syncfusion-blazor-icons syncfusion-blazor-icon-charts" aria-hidden="true"></span> Tableau de bord
-            </NavLink>
-        </div>
-
-        @* LINKS TO EACH STATION *@
-
-        @try
-        {
-            @if (DataSource.Count() != 0)
-            {
-                @foreach (var station in DataSource)
-                {
-                    var path = "station/" + station.StationName.ToString();
-
-                    <div class="nav-item px-3">
-                        <NavLink class="nav-link" href="@path" Match="NavLinkMatch.Prefix">
-                            <span class="syncfusion-blazor-icons syncfusion-blazor-icon-datagrid" aria-hidden="true"></span>
-                            @station.StationName
-                        </NavLink>
+                    <div class="nav-item">
+                         <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                            <span class="syncfusion-blazor-icons syncfusion-blazor-icon-charts" aria-hidden="true"></span>
+                            <span class="nav-text @ToggleClass">Tableau de bord</span>
+                         </NavLink>
                     </div>
-                }
-            }
+                    @try
+                    {
+                        @if (DataSource.Count() != 0)
+                        {
+                            @foreach (var station in DataSource)
+                            {
+                                var path = "station/" + station.StationName.ToString();
 
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError($"Error displaying navbar links: {ex.Message} {ex.StackTrace}");
-        }
+                                <div class="nav-item">
+                                    <NavLink class="nav-link" href="@path" Match="NavLinkMatch.Prefix">
+                                        <span class="syncfusion-blazor-icons syncfusion-blazor-icon-datagrid" aria-hidden="true"></span>
+                                        <span class="nav-text  @ToggleClass">@station.StationName</span>
+                                    </NavLink>
+                                </div>
+                            }
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.LogError($"Error displaying navbar links: {ex.Message} {ex.StackTrace}");
+                    }
 
 
-    </nav>
+                </nav>
+            </ChildContent>
+        </SfSidebar>
+    @*Initialize the Toolbar component*@
+    <SfToolbar CssClass="dockToolbar">
+        <ToolbarItems>
+            <ToolbarItem>
+                <Template>
+                    <div class="e-folder">
+                         <div class="e-folder-name"><img class="navbar-brand" alt="Logo" src="/images/ICONE-AXOR_BLANC.svg" /></div>
+                    </div>
+                </Template>
+            </ToolbarItem>
+        </ToolbarItems>
+    </SfToolbar>
+
 </div>
+</div>
+@code {
+
+    protected SfSidebar SidebarRef;
+    // Specify the value of Sidebar component state (open/close).
+    protected bool SidebarToggle = false;
+    protected string ToggleClass = "close";
+
+    // Event handler for Clicked event. It's used to open/close the Sidebar component. 
+    private void ToggleSidebar(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        SidebarToggle = !SidebarToggle;
+        ToggleClass = SidebarToggle ? "open" : "close";
+    }
+
+    // Method to handle the close event
+    public void OnClose()
+    {
+        ToggleClass = "close";
+    }
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += HandleLocationChanged;
+        base.OnInitialized();
+    }
+
+    private async void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        if (SidebarRef.IsOpen)
+        {
+            SidebarToggle = false;
+            StateHasChanged();
+        }
+    }
+
+}
+<style>
+
+
+    /* Toolbar component related styles */
+
+    .e-toolbar-items{ 
+        width:100%;
+        justify-content: flex-end;
+    }
+
+    .navbar-brand {
+        height: 100%;
+        width: 10%;
+        float:right;
+        margin: 0px;
+    }
+
+    /* Sidebar component related styles*/
+
+    .dockSidebar {
+        z-index: 9999 !important;
+        overflow: hidden !important;
+        position: fixed;
+    }
+
+    .nav-toggler  {
+        border: none;
+        width:100%;
+        height:1rem;
+        padding:1.2rem;
+        transition: background 0.5s linear;
+    }
+
+    .nav-toggler.close {
+        background:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='black' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-toggler.open {
+        background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3crect /%3e%3cpath stroke='black' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M7 7L23 23M7 23L23 7'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-text.close {
+        display:none;
+        position:absolute;
+    }
+
+ 
+
+    .syncfusion-blazor-icons {
+        color:black;
+    }
+
+    .nav-link {
+        white-space: nowrap;
+    }
+
+  
+
+</style>
+
+
+
