@@ -12,7 +12,7 @@ namespace AxorP1.Shared
         protected string ToggleClass = "close";
 
         // Event handler for Clicked event. It's used to open/close the Sidebar component. 
-        private void ToggleSidebar(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+        protected void ToggleSidebar(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
         {
             SidebarToggle = !SidebarToggle;
             ToggleClass = SidebarToggle ? "open" : "close";
