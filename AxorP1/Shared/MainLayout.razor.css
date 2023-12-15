@@ -27,3 +27,16 @@ main {
     right: 0.75rem;
     top: 0.5rem;
 }
+
+
+/* NavMenu  component Sidebar related styles*/
+
+::deep .dockSidebar {
+    z-index: 9999;
+    overflow: hidden;
+    position: fixed !important;
+}
+
+    ::deep .dockSidebar.e-close{
+        transition: 0.2s ease-in-out !important;
+    }

@@ -1,0 +1,56 @@
+﻿/* Dashboard layout */
+
+.dashboard-container {
+    overflow: hidden;
+    touch-action: none;
+    position: relative;
+    z-index: 1;
+}
+
+.e-dashboardlayout.e-control .e-dashboard-gridline-table {
+}
+
+
+::deep .e-panel-header {
+    text-align: center;
+    padding: 10px !important;
+    height: auto !important;
+}
+
+::deep .e-panel-content {
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+
+::deep .panel {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+/* Grid Group T/A Component */
+::deep .groupta {
+    display: inline-block;
+    border-radius: 50%;
+    margin: auto;
+    color: white;
+    padding: 6px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+::deep .groupta#actif {
+   background-color: red;
+}
+
+::deep .groupta#inactif {
+    background-color: yellowgreen;
+}
+
+/* Localisation Map Component */
+
+/* Markers  */
+::deep .e-maps #Map_LayerIndex_0_MarkerGroup path:hover {
+    cursor: pointer;
+}

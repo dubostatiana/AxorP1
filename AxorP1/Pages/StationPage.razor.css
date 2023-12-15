@@ -1,0 +1,184 @@
+﻿.StationContainer span {
+    position: absolute;
+    font-size: x-small;
+    transition: 0.5s ease-in-out;
+}
+
+
+.StationContainer {
+    position: relative;
+}
+
+.StationContainer img {
+    width: 100%;
+}
+
+.groupCircle {
+    padding: 8px;
+    border-radius: 50%;
+    transition: 0.5s ease-in-out;
+}
+
+.StationContainer span:hover {
+    font-weight: bold;
+    transform: scale(1.2);
+}
+
+.StationContainer #upstream {
+    top: 8.7%;
+    left: 7%;
+}
+
+.StationContainer #downstream {
+    top: 78%;
+    left: 81%;
+}
+
+.StationContainer #fall {
+    top: 66.5%;
+    left: 25%;
+}
+
+.StationContainer #production {
+    top: 9%;
+    left: 82%;
+}
+
+.StationContainer #flowrate {
+    top: 85.5%;
+    left: 62.5%;
+}
+
+.StationContainer #monthTarget {
+    top: 86.8%;
+    left: 11%;
+}
+
+.StationContainer #monthActual {
+    top: 86.8%;
+    left: 24%;
+}
+
+.StationContainer #yearTarget {
+    top: 93.2%;
+    left: 11%;
+}
+
+.StationContainer #yearActual {
+    top: 93.2%;
+    left: 24%;
+}
+
+.StationContainer #monthPercent {
+    top: 86.8%;
+    left: 35.5%;
+}
+
+.StationContainer #yearPercent {
+    top: 93.2%;
+    left: 35.5%;
+}
+
+.StationContainer #group1TA {
+    top: 11%;
+    left: 52.6%;
+}
+
+.StationContainer #group2TA {
+    top: 11%;
+    left: 58.6%;
+}
+
+.StationContainer #group1Flowrate {
+    top: 43%;
+    left: 35.5%;
+}
+
+.StationContainer #group2Flowrate {
+    top: 43%;
+    left: 43%;
+}
+
+.StationContainer #group1Production {
+    top: 57%;
+    left: 51%;
+}
+
+.StationContainer #group2Production {
+    top: 57%;
+    left: 58%;
+}
+
+.StationContainer #group1FineGrid {
+    top: 11.5%;
+    left: 34.5%;
+}
+
+.StationContainer #group2FineGrid {
+    top: 11.5%;
+    left: 42%;
+}
+
+.StationContainer #group1CoarseGrid {
+    top: 17.5%;
+    left: 34.5%;
+}
+
+.StationContainer #group2CoarseGrid {
+    top: 17.5%;
+    left: 42%;
+}
+
+
+@media (min-width: 650px) {
+    .StationContainer span {
+        font-size: small;
+    }
+
+    .groupCircle {
+        padding: 10px;
+    }
+}
+
+@media (min-width: 900px) {
+    .StationContainer span {
+        font-size: medium;
+    }
+
+    .groupCircle {
+        padding: 12px;
+    }
+}
+
+@media (min-width: 1100px) {
+
+    .StationContainer span {
+        font-size: large;
+    }
+
+    .groupCircle {
+        padding: 16px;
+    }
+}
+
+@media (min-width: 1500px) {
+
+    .StationContainer span {
+        font-size: x-large;
+    }
+
+    .groupCircle {
+        padding: 20px;
+    }
+}
+
+@media (min-width: 1800px) {
+
+    .StationContainer span {
+        font-size: x-large;
+    }
+
+    .groupCircle {
+        padding: 30px;
+    }
+}
