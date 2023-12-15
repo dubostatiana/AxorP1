@@ -23,6 +23,11 @@
 
 /* Toolbar component related styles */
 
+
+::deep .dockToolbar {
+    background: #faf9f8 !important;
+}
+
 ::deep .e-toolbar-items {
     width: 100%;
     justify-content: flex-end;
@@ -36,6 +41,7 @@
 }
 
 /* Sidebar component related styles*/
+
 
 ::deep .nav-toggler {
     border: none;

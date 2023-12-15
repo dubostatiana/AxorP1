@@ -1,10 +1,10 @@
 ﻿@using Syncfusion.Blazor.Buttons
-@inherits MainComponent<NavMenu>
+@inherits NavMenuBase
 
 <div id="control-section">
 <div id="wrapper">
         @*Initialize the Sidebar component*@
-        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true">
+        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" >
             <ChildContent>
                 <nav class="flex-column">
                     @*Toggle button for the sidebar*@
@@ -44,58 +44,16 @@
             </ChildContent>
         </SfSidebar>
     @*Initialize the Toolbar component*@
-    <SfToolbar CssClass="dockToolbar">
+    <SfToolbar CssClass="dockToolbar" Width="100%">
         <ToolbarItems>
-            <ToolbarItem>
+                <ToolbarItem Align="ItemAlign.Right">
                 <Template>
-                    <div class="e-folder">
-                         <div class="e-folder-name"><img class="navbar-brand" alt="Logo" src="/images/ICONE-AXOR_BLANC.svg" /></div>
-                    </div>
-                </Template>
+                        <span><img class="navbar-brand" alt="Logo" src="/images/ICONE-AXOR_BLANC.svg" /></span>
+                    </Template>
             </ToolbarItem>
         </ToolbarItems>
     </SfToolbar>
 
 </div>
 </div>
-@code {
-
-    protected SfSidebar SidebarRef;
-    // Specify the value of Sidebar component state (open/close).
-    protected bool SidebarToggle = false;
-    protected string ToggleClass = "close";
-
-    // Event handler for Clicked event. It's used to open/close the Sidebar component. 
-    private void ToggleSidebar(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
-    {
-        SidebarToggle = !SidebarToggle;
-        ToggleClass = SidebarToggle ? "open" : "close";
-    }
-
-    // Method to handle the close event
-    public void OnClose()
-    {
-        ToggleClass = "close";
-    }
-
-    protected override void OnInitialized()
-    {
-        NavigationManager.LocationChanged += HandleLocationChanged;
-        base.OnInitialized();
-    }
-
-    private async void HandleLocationChanged(object sender, LocationChangedEventArgs e)
-    {
-        if (SidebarRef.IsOpen)
-        {
-            SidebarToggle = false;
-            StateHasChanged();
-        }
-    }
-
-}
-
-
-
-
 
