@@ -63,5 +63,8 @@ else
 
     </div>
 
-  <RangeComponent DataSource="@PastDataSource" RangeTheme="@AppTheme" HeaderText="Production Centrale dans le temps"></RangeComponent>
+    <div>
+        <RangeComponent @ref="@RangeRef" DataSource="@PastDataSource" RangeTheme="@AppTheme" HeaderText="Production Centrale dans le temps"></RangeComponent>
+    </div>
+  
 }

@@ -4,7 +4,7 @@
 <div id="control-section">
 <div id="wrapper">
         @*Initialize the Sidebar component*@
-        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" >
+        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".main" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" >
             <ChildContent>
                 <nav class="flex-column">
                     @*Toggle button for the sidebar*@

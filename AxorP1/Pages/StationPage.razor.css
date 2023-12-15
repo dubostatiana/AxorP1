@@ -7,10 +7,11 @@
 
 .StationContainer {
     position: relative;
+    width:100%;
 }
 
 .StationContainer img {
-    width: 100%;
+    width: inherit;
 }
 
 .groupCircle {

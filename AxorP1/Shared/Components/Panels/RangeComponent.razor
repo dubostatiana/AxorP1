@@ -1,9 +1,9 @@
 ﻿@* RANGENAVIGATOR COMPONENT *@
 
-
-    <div style="width:inherit;margin:1rem;">
+<div class="rangeContainer">
+    <div class="rangeNavigator">
         <div>
-            <SfRangeNavigator @ref=RangeRef Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%">
+            <SfRangeNavigator @ref=RangeRef Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" >
                 
                 <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
                 <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
@@ -48,6 +48,7 @@
         </div>
     </div>
 
+</div>
 
 @code {
 
@@ -80,4 +81,33 @@
         StateHasChanged();
     }
 
+    public void Refresh()
+    {
+       ChartRef?.RefreshAsync();
+       RangeRef?.RefreshAsync();
+    }
+
+
 }
+
+
+<style>
+
+    .rangeContainer {
+       width:100%;
+       margin-right:1rem;
+       overflow-x:scroll;
+    }
+
+    /* Apply styles to the container of the SfRangeNavigator */
+    .rangeNavigator {
+        width: inherit;
+        position:relative;
+    }
+
+      
+            
+
+
+
+</style>

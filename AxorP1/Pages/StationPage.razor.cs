@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using AxorP1.Components;
+using AxorP1.Shared.Components.Panels;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Layouts;
 using Timer = System.Timers.Timer;
@@ -13,6 +14,8 @@ namespace AxorP1.Pages
         private int num;
         private static Timer timer = new Timer(5000); // 5s timer 
         protected Class.Station? Station { get; set; }
+
+        protected RangeComponent RangeRef;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -56,5 +59,14 @@ namespace AxorP1.Pages
                 StateHasChanged();
             });
         }
+
+        protected override async Task OnInitializedAsync()
+        {
+            await base.OnInitializedAsync();
+            await Task.Delay(500);
+           RangeRef?.Refresh();
+        }
+
+
     }
 }
