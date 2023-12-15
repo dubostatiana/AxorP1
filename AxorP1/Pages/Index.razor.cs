@@ -886,7 +886,7 @@ namespace AxorP1.Pages
                              {"ToolTipAttributes", new Dictionary<string, object>()
                                 {
                                     {"Enable", true },
-                                    {"Format", "${point.x} : <b>${point.y} mW</b>" },
+                                    {"Format", "${point.x} : <b>${point.y}%</b>" },
                                 }
                              },
                              {"LegendAttributes", new Dictionary<string, object>()
