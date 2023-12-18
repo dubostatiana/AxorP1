@@ -1,14 +1,16 @@
-﻿.StationContainer span {
+﻿
+
+.StationContainer {
+    position: relative;
+    width: 100%;
+}
+
+.StationContainer span {
     position: absolute;
     font-size: x-small;
     transition: 0.5s ease-in-out;
 }
 
-
-.StationContainer {
-    position: relative;
-    width:100%;
-}
 
 .StationContainer img {
     width: inherit;

@@ -3,7 +3,6 @@ using AxorP1.Components;
 using AxorP1.Shared.Components.Panels;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Layouts;
-using Timer = System.Timers.Timer;
 
 namespace AxorP1.Pages
 {
@@ -12,10 +11,10 @@ namespace AxorP1.Pages
         [Parameter] public string id { get; set; } = string.Empty;
 
         private int num;
-        private static Timer timer = new Timer(5000); // 5s timer 
         protected Class.Station? Station { get; set; }
 
-        protected RangeComponent RangeRef;
+        protected SfDashboardLayout? DashboardLayout;
+        protected RangeComponent? RangeComponent;
 
         protected override async Task OnParametersSetAsync()
         {
@@ -54,19 +53,33 @@ namespace AxorP1.Pages
             // Get Station object
             Station = DataSource.FirstOrDefault(obj => obj.StationName == id.Trim());
 
-            await InvokeAsync(() =>
+            await InvokeAsync(async () =>
             {
-                StateHasChanged();
+                // Re-render components
+               StateHasChanged();
+
+                if (DashboardLayout != null)
+                {
+                  await DashboardLayout.RefreshAsync();
+                }
             });
+            
         }
 
-        protected override async Task OnInitializedAsync()
+
+        // Dashboard event Created
+        public void Created(Object args)
         {
-            await base.OnInitializedAsync();
-            await Task.Delay(500);
-           RangeRef?.Refresh();
+            Logger.LogInformation($"StationPage Dashboard created");
+            RangeComponent?.Refresh();
         }
 
+        // Dashboard event OnWindowResize
+        public async Task OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
+        {
+           
+            await DashboardLayout?.RefreshAsync();
+        }
 
     }
 }

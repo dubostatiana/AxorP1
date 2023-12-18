@@ -63,8 +63,25 @@ else
 
     </div>
 
-    <div>
-        <RangeComponent @ref="@RangeRef" DataSource="@PastDataSource" RangeTheme="@AppTheme" HeaderText="Production Centrale dans le temps"></RangeComponent>
+    <div class="dashboard-container">
+        <SfDashboardLayout Columns="2" CellSpacing="@IndexBase.Spacing" @ref="@DashboardLayout" Id="DashboardLayout" MediaQuery="@MediaQuery" AllowResizing="false" ShowGridLines="false" AllowFloating="false" AllowDragging="false">
+            <DashboardLayoutEvents Created="@Created" OnWindowResize="@OnWindowResize"  />
+        @* Replace required Columns here *@
+        <DashboardLayoutPanels>
+            <DashboardLayoutPanel Id="panelPangeNavigator" Column="0" Row="0" SizeX="2" SizeY="1" >
+                <HeaderTemplate><div>Historique</div></HeaderTemplate>
+                <ContentTemplate>
+                    <div class="panel">
+                        <RangeComponent @ref="@RangeComponent" DataSource="@PastDataSource" RangeTheme="@AppTheme"></RangeComponent>
+                    </div>
+                </ContentTemplate>
+            </DashboardLayoutPanel>
+
+        </DashboardLayoutPanels>
+    </SfDashboardLayout>
     </div>
-  
+   
 }
+
+
+

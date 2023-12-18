@@ -2,6 +2,7 @@
 using AxorP1.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Timer = System.Timers.Timer;
 
 namespace AxorP1.Components
 {
@@ -12,12 +13,15 @@ namespace AxorP1.Components
         [Inject] protected NavigationManager NavigationManager { get; set; }
         [Inject] protected IJSRuntime JSRuntime { get; set; }
 
+        protected Timer timer = new Timer(5000); // 5s timer 
+
         // DataSource List
         protected List<Station> DataSource = new List<Station>();
         protected List<Station> PastDataSource = new List<Station>();
 
         protected static Syncfusion.Blazor.Theme AppTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
         protected static int MaxWidth = 799;
+        protected string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
 
         protected override async Task OnInitializedAsync()
         {

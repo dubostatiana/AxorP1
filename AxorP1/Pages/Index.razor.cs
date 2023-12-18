@@ -17,18 +17,18 @@ namespace AxorP1.Pages
 {
     public class IndexBase : MainComponent<Index>, IDisposable
     {
-        private static Timer timer = new Timer(5000); // 5s timer 
 
         protected List<PanelObject> PanelData { get; set; } = new List<PanelObject>(); // List of Dashboard Panels 
 
         // DashboardLayout attributs
         protected SfDashboardLayout? DashboardLayout;
-        public string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
+        
         public int Columns = 4;
-        public double[] Spacing = new double[] { 10, 10 };
+        public static double[] Spacing = new double[] { 10, 10 };
         public double Ratio = 160 / 100;
 
         // List of DynamicComponent references
+        protected List<DynamicComponent> componentsReferences = new List<DynamicComponent>();
         protected DynamicComponent? componentReference {
             set
             {
@@ -37,8 +37,6 @@ namespace AxorP1.Pages
         }
 
         protected bool IsStacked { get; private set; }
-
-        protected List<DynamicComponent> componentsReferences = new List<DynamicComponent>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -846,7 +844,7 @@ namespace AxorP1.Pages
                          Parameters = new Dictionary<string, object>
                          {
                              { "MapId", "Map" },
-                             { "Title", "Amérique du Nord" },
+                             { "Title", "Canada" },
                              { "MapTheme", AppTheme },
                              { "OnMarkerClickEvent",  new EventCallback<MarkerClickEventArgs>(this, OnMarkerClickEvent) },
                              {"MarkerAttributes", new Dictionary<string, object>()

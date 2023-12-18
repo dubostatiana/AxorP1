@@ -1,63 +1,67 @@
-﻿@* RANGENAVIGATOR COMPONENT *@
+﻿@* RANGE NAVIGATOR COMPONENT *@
 
-<div class="rangeContainer">
-    <div class="rangeNavigator">
-        <div>
-            <SfRangeNavigator @ref=RangeRef Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" >
-                
-                <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
-                <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
-                <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
-               
-                <RangeNavigatorSeriesCollection>
-                    <RangeNavigatorSeries DataSource="@DataSource" XName="@XName" YName="@YName" Width="2" Type="RangeNavigatorType.Area">
-                        <RangeNavigatorSeriesBorder  Width="2"></RangeNavigatorSeriesBorder>
-                    </RangeNavigatorSeries>
-                </RangeNavigatorSeriesCollection>
+@if (IsParentCreated)
+{
+    <div class="rangeContainer">
+        <div class="rangeNavigator">
+            <div>
+                <SfRangeNavigator @ref=RangeRef Id="RangeNav" Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%">
 
-            </SfRangeNavigator>
+                    <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
+                    <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
+                    <RangeNavigatorRangeTooltipSettings Enable="true" Format="yyyy/MM/dd" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+
+                    <RangeNavigatorSeriesCollection>
+                        <RangeNavigatorSeries DataSource="@DataSource" XName="@XName" YName="@YName" Width="2" Type="RangeNavigatorType.Area">
+                            <RangeNavigatorSeriesBorder  Width="2"></RangeNavigatorSeriesBorder>
+                        </RangeNavigatorSeries>
+                    </RangeNavigatorSeriesCollection>
+
+                </SfRangeNavigator>
+            </div>
+            <div>
+                <SfChart @ref="ChartRef" ID="RangeNavChart" Theme="@RangeTheme" Width="100%" Height="100%">
+
+                    <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
+
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Interval="1" IntervalType="IntervalType.Months" ZoomFactor="@ZF" ZoomPosition="@ZP" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                    </ChartPrimaryXAxis>
+
+                    <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Double">
+                        <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                        <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                    </ChartPrimaryYAxis>
+
+                    <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+                        <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
+                    </ChartCrosshairSettings>
+
+                    <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} mW</b>" ></ChartTooltipSettings>
+                    <ChartLegendSettings Visible="false"></ChartLegendSettings>
+
+                    <ChartSeriesCollection>
+                        <ChartSeries DataSource="@DataSource" XName="@XName" YName="@YName" Width="2" Type="ChartSeriesType.Spline">
+                        </ChartSeries>
+                    </ChartSeriesCollection>
+
+                </SfChart>
+
+            </div>
         </div>
-        <div>
-        <SfChart @ref="ChartRef" Theme="@RangeTheme" Width="100%" Height="100%" Title="@HeaderText">
 
-                <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-
-            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Interval="1" IntervalType="IntervalType.Months" ZoomFactor="@ZF" ZoomPosition="@ZP" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
-                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
-                </ChartPrimaryXAxis>
-
-                <ChartPrimaryYAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Double">
-                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
-                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
-                </ChartPrimaryYAxis>
-
-                <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
-                    <ChartCrosshairLine Color="transparent" Width="0"></ChartCrosshairLine>
-                </ChartCrosshairSettings>
-
-                <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} mW</b>" ></ChartTooltipSettings>
-                <ChartLegendSettings Visible="false"></ChartLegendSettings>
-
-                <ChartSeriesCollection>
-                    <ChartSeries DataSource="@DataSource" XName="@XName" YName="@YName" Width="2" Type="ChartSeriesType.Spline">
-                    </ChartSeries>
-                </ChartSeriesCollection>
-
-            </SfChart>
-
-        </div>
     </div>
-
-</div>
+}
 
 @code {
 
     private SfRangeNavigator? RangeRef;
     private SfChart? ChartRef;
 
+    private bool IsParentCreated { get; set; }  // Initiate the render only if the parent has been created
+
     [Parameter] public Syncfusion.Blazor.Theme RangeTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
     [Parameter] public IEnumerable<object> DataSource { get; set; } = new List<object>();
-    [Parameter] public string HeaderText { get; set; } = string.Empty;
 
     private string XName = nameof(Station.DateTime);
     private string YName = nameof(Station.CentralProduction);
@@ -81,10 +85,18 @@
         StateHasChanged();
     }
 
-    public void Refresh()
+    public async void Refresh()
     {
-       ChartRef?.RefreshAsync();
+        await Task.Delay(500);
+
+        if (!IsParentCreated)
+        {
+            IsParentCreated = true;
+            StateHasChanged();
+        }
+
        RangeRef?.RefreshAsync();
+       ChartRef?.RefreshAsync();
     }
 
 
@@ -93,20 +105,22 @@
 
 <style>
 
-    .rangeContainer {
-       width:100%;
-       margin-right:1rem;
-       overflow-x:scroll;
-    }
-
     /* Apply styles to the container of the SfRangeNavigator */
-    .rangeNavigator {
-        width: inherit;
-        position:relative;
+  
+    .rangeContainer {
+      width:100%;
+      height: 100%;
     }
 
-      
-            
+    .rangeNavigator {
+        width: inherit ;
+        height: inherit ;
+        overflow:auto;
+    }       
+    
+    #RangeNav,#RangeNavChart {
+       
+    }
 
 
 

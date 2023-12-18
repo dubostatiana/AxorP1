@@ -10,6 +10,7 @@
         <MapsTitleSettings Text="@Title"></MapsTitleSettings>
         <MapsMargin Bottom="0" Left="0" Right="0" Top="0"></MapsMargin>
 
+
         <MapsLayers>
 
             <MapsLayer ShapeData="@MapShapeData" TValue="string">
@@ -21,7 +22,7 @@
                     </MapsMarker>
                 </MapsMarkerSettings>
 
-                <MapsDataLabelSettings Visible="true" LabelPath="name" IntersectionAction="IntersectAction.Hide" ></MapsDataLabelSettings>
+                <MapsDataLabelSettings Visible="true" LabelPath="prov_name_fr" IntersectionAction="IntersectAction.Hide"></MapsDataLabelSettings>
                 <MapsShapeSettings Autofill="true"></MapsShapeSettings>
 
                 <MapsZoomSettings Enable="@EnableZoom">
@@ -80,7 +81,7 @@
     {
             async = true,
             type = "GET",
-            dataOptions = "maps/north-america.json"
+            dataOptions = "maps/Canada.json"
     };
 
 

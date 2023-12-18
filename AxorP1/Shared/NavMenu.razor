@@ -4,12 +4,13 @@
 <div id="control-section">
 <div id="wrapper">
         @*Initialize the Sidebar component*@
-        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".main" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" >
+        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".page-content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" >
             <ChildContent>
                 <nav class="flex-column">
                     @*Toggle button for the sidebar*@
-                    <SfButton CssClass="@ToggleClass" OnClick="@ToggleSidebar" class="nav-item nav-toggler"></SfButton>
+                    <SfButton CssClass="@ToggleClass" OnClick="@ToggleSidebar" class="nav-toggler"></SfButton>
 
+                    @* Nav Links *@
                     <div class="nav-item">
                          <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
                             <span class="syncfusion-blazor-icons syncfusion-blazor-icon-charts" aria-hidden="true"></span>
