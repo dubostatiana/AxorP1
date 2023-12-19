@@ -63,7 +63,8 @@ else
 
     </div>
 
-    <div class="dashboard-container">
+  <div class="dashboard-container">
+    <div>
         <SfDashboardLayout Columns="2" CellSpacing="@IndexBase.Spacing" @ref="@DashboardLayout" Id="DashboardLayout" MediaQuery="@MediaQuery" AllowResizing="false" ShowGridLines="false" AllowFloating="false" AllowDragging="false">
             <DashboardLayoutEvents Created="@Created" OnWindowResize="@OnWindowResize"  />
         @* Replace required Columns here *@
@@ -80,6 +81,7 @@ else
         </DashboardLayoutPanels>
     </SfDashboardLayout>
     </div>
+  </div>
    
 }
 

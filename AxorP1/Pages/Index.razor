@@ -13,7 +13,8 @@
 }
 else
 {
-  <div class="dashboard-container">
+  <div class="dashboard-container" style="background:#f3f2f1;">
+  <div>
     <SfDashboardLayout @ref="@DashboardLayout" ID="DashBoardLayout" Columns="@Columns" MediaQuery="@MediaQuery" CellSpacing="@Spacing" CellAspectRatio="@Ratio" AllowResizing="true" ShowGridLines="true" AllowFloating="true" AllowDragging="true" EnablePersistence="true" DraggableHandle=".e-panel-header">
         <DashboardLayoutEvents Created="@Created" OnResizeStop="@OnResizeStop" OnWindowResize="@OnWindowResize" />
         <DashboardLayoutPanels>
@@ -40,5 +41,6 @@ else
 
         </DashboardLayoutPanels>
     </SfDashboardLayout>
+    </div>
   </div>
 }
