@@ -5,8 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-<ItemGroup>
-	    <PackageReference Include="Syncfusion.Blazor.Grid" Version="24.1.41" />
+<ItemGroup>    <PackageReference Include="Syncfusion.Blazor.Buttons" Version="24.1.41" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="24.1.41" />
     <PackageReference Include="Syncfusion.Blazor.Charts" Version="24.1.41" />
     <PackageReference Include="Syncfusion.Blazor.Layouts" Version="24.1.41" />
     <PackageReference Include="Syncfusion.Blazor.Maps" Version="24.1.41" />

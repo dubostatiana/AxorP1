@@ -5,7 +5,7 @@
     <div class="rangeContainer">
         <div class="rangeNavigator">
             <div>
-                <SfRangeNavigator @ref=RangeRef Id="RangeNav" Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%">
+                <SfRangeNavigator @ref=RangeRef Id="rangeNav" Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%">
 
                     <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
                     <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
@@ -20,7 +20,7 @@
                 </SfRangeNavigator>
             </div>
             <div>
-                <SfChart @ref="ChartRef" ID="RangeNavChart" Theme="@RangeTheme" Width="100%" Height="100%">
+                <SfChart @ref="ChartRef" ID="rangeNavChart" Theme="@RangeTheme" Width="100%" Height="100%">
 
                     <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
 
@@ -116,10 +116,10 @@
         width: inherit ;
         height: inherit ;
         overflow:auto;
+        
     }       
     
-    #RangeNav,#RangeNavChart {
-       
+    #rangeNav,#rangeNavChart {
     }
 
 

@@ -1,12 +1,13 @@
 ﻿@using Syncfusion.Blazor.Buttons
 @inherits NavMenuBase
 
-<div id="control-section">
-<div id="wrapper">
-        @*Initialize the Sidebar component*@
-        <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".page-content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" >
+<div id="nav-container">
+    @*Initialize the Sidebar component*@
+    
+    <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".page-content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="SidebarType.Push" @bind-IsOpen="SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true">
             <ChildContent>
                 <nav class="flex-column">
+
                     @*Toggle button for the sidebar*@
                     <SfButton CssClass="@ToggleClass" OnClick="@ToggleSidebar" class="nav-toggler"></SfButton>
 
@@ -40,21 +41,69 @@
                         Logger.LogError($"Error displaying navbar links: {ex.Message} {ex.StackTrace}");
                     }
 
+                    @*Theme switcher*@
+                        <div class="theme-switch">
+                            <span class="nav-text @ToggleClass">
+                                <SfSwitch CssClass="btnSwitch" Checked="@isDarkMode" OnLabel="Dark" OffLabel="Light" ValueChange="@switchStateChanged"></SfSwitch>
+                            </span>
+                        </div>
 
+                    @* Scroll indicator when items overflow *@
+                    <div class="scroll-indicator" onclick="scrollDown()"></div>
+            
                 </nav>
             </ChildContent>
-        </SfSidebar>
+     </SfSidebar>
+
+
+
     @*Initialize the Toolbar component*@
+
     <SfToolbar CssClass="dockToolbar" Width="100%">
         <ToolbarItems>
-                <ToolbarItem Align="ItemAlign.Right">
+             <ToolbarItem Align="ItemAlign.Left">
                 <Template>
-                        <span><img class="navbar-brand" alt="Logo" src="/images/ICONE-AXOR_BLANC.svg" /></span>
-                    </Template>
+                    <span><img class="navbar-brand" alt="Logo" src="/images/ICONE-AXOR_BLANC.svg" /></span>
+                </Template>
             </ToolbarItem>
         </ToolbarItems>
     </SfToolbar>
-
-</div>
 </div>
 
+
+
+<script>
+
+
+    let Counter = 0;
+
+    function scrollDown() {
+        const sidebar = document.querySelector('.dockSidebar');
+        const indicator = document.querySelector('.scroll-indicator');
+
+        const previousScrollTop = sidebar.scrollTop;
+
+        // Scroll down
+        sidebar.scrollTop += 50;
+
+        // Check if scrolling is still possible
+        if (sidebar.scrollTop === previousScrollTop) {
+            // Scrolling is not possible
+            indicator.style.background = 'red';
+            return;
+        }
+
+        // Check if scrolling by 50px is possible
+        const remainingScrollHeight = sidebar.scrollHeight - sidebar.scrollTop;
+
+        if (remainingScrollHeight <= sidebar.clientHeight) {
+            // Scrolling by 50px is not possible
+            indicator.style.background = 'blue';
+            return;
+        }
+    
+        // Calculate the new translateY value by adding 50px
+        Counter += 50;
+        indicator.style.transform = `translateX(-50%) translateY(${Counter}px)`;
+    }
+</script>

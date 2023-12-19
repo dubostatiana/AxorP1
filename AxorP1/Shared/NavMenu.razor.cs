@@ -1,5 +1,8 @@
 ﻿using AxorP1.Components;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
+using Microsoft.JSInterop;
+using Syncfusion.Blazor.Buttons;
 using Syncfusion.Blazor.Navigations;
 
 namespace AxorP1.Shared
@@ -7,6 +10,11 @@ namespace AxorP1.Shared
     public class NavMenuBase : MainComponent<NavMenu>
     {
         protected SfSidebar SidebarRef;
+
+        // Theme Switcher
+        protected bool isDarkMode = false;
+        protected EventCallback<ChangeEventArgs<bool?>> switchStateChanged;
+
         // Specify the value of Sidebar component state (open/close).
         protected bool SidebarToggle = false;
         protected string ToggleClass = "close";
@@ -27,6 +35,9 @@ namespace AxorP1.Shared
         protected override void OnInitialized()
         {
             NavigationManager.LocationChanged += HandleLocationChanged;
+
+            switchStateChanged = EventCallback.Factory.Create<ChangeEventArgs<bool?>>(this, HandleSwitchStateChanged);
+
             base.OnInitialized();
         }
 
@@ -39,6 +50,35 @@ namespace AxorP1.Shared
                 StateHasChanged();
             }
         }
+
+
+        protected void HandleSwitchStateChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+        {
+            isDarkMode = (bool)args.Checked;
+
+            // (true for dark mode, false for light mode)
+            if (isDarkMode)
+            {
+                // Dark mode is enabled
+               // AppTheme = Syncfusion.Blazor.Theme.FluentDark;
+                
+                
+            }
+            else
+            {
+                // Light mode is enabled
+                
+            }
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            await JSRuntime.InvokeVoidAsync("checkOverflow");
+
+        }
+
 
     }
 }

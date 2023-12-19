@@ -2,6 +2,7 @@
 using AxorP1.Components;
 using AxorP1.Shared.Components.Panels;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Syncfusion.Blazor.Layouts;
 
 namespace AxorP1.Pages

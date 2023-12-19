@@ -32,20 +32,48 @@
     z-index: 9999;
     overflow: hidden;
     position: fixed !important;
+    background-color: #faf9f8 !important;
+    height: 100%;
 }
 
-    ::deep .dockSidebar.e-close{
+    ::deep .dockSidebar.e-close {
         transition: 0.2s ease-in-out !important;
     }
+
+::deep .scroll-indicator {
+    display: none; /*   Masquer par défaut */
+    position: fixed;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: #faf9f8;
+    border: 1px solid #888;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s transform ease-in-out;
+}
+
+    ::deep .scroll-indicator::after {
+        content: '\2193'; /* Code unicode pour une flèche vers le bas */
+        font-size: 20px;
+        color: #888;
+    }
+
+
 
 /* Dashboard layout */
 
 ::deep .dashboard-container {
-    touch-action: none;
+    padding:10px;
 }
 
 ::deep .e-dashboardlayout {
-
+    position: relative;
+    touch-action: none;
 }
 
 
@@ -64,5 +92,6 @@
 ::deep .panel {
     width: 100%;
     height: 100%;
+    overflow: hidden;
 }
 

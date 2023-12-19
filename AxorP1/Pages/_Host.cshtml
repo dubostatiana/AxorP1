@@ -11,4 +11,16 @@
     function getWidth() {
         return (window.innerWidth)
     }
+
+    function checkOverflow() {
+        const sidebar = document.querySelector('.dockSidebar');
+        const indicator = document.querySelector('.scroll-indicator');
+
+        // Afficher le scroll indicator si le contenu dépasse la hauteur de la barre latérale
+        if (sidebar.scrollHeight > window.innerHeight) {
+            indicator.style.display = 'flex';
+        } else {
+            indicator.style.display = 'none';
+        }
+    }
 </script>

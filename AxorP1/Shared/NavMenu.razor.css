@@ -29,16 +29,16 @@
 }
 
 ::deep .e-toolbar-items {
-    width: 100%;
-    justify-content: flex-end;
+    background:transparent !important;
 }
 
 .navbar-brand {
     height: 100%;
     width: 10%;
-    float: right;
     margin: 0px;
 }
+
+
 
 /* Sidebar component related styles*/
 
@@ -114,3 +114,19 @@
     position: absolute;
 }
 
+ /*Theme switcher*/
+::deep .theme-switch {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+::deep .btnSwitch {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    border-radius: 15px;
+    cursor: pointer;
+    overflow: hidden;
+}
