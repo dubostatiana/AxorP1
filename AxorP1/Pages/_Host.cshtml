@@ -8,6 +8,7 @@
 <component type="typeof(App)" render-mode="ServerPrerendered" />
 
 <script type="text/javascript">
+
     function getWidth() {
         return (window.innerWidth)
     }
@@ -16,7 +17,7 @@
         const sidebar = document.querySelector('.dockSidebar');
         const indicator = document.querySelector('.scroll-indicator');
 
-        // Afficher le scroll indicator si le contenu dépasse la hauteur de la barre latérale
+        // Show scroll-indicator if SideBar content is overflows
         if (sidebar.scrollHeight > window.innerHeight) {
             indicator.style.display = 'flex';
         } else {

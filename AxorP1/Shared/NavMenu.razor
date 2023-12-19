@@ -44,7 +44,7 @@
                    
 
                     @* Scroll indicator when items overflow *@
-                    <div class="scroll-indicator" onclick="scrollDown()"></div>
+                    <div class="scroll-indicator" onclick="scrollSideBar()"></div>
             
                 </nav>
             </ChildContent>
@@ -58,7 +58,7 @@
 
     let Counter = 0;
 
-    function scrollDown() {
+    function scrollSideBar() {
         const sidebar = document.querySelector('.dockSidebar');
         const indicator = document.querySelector('.scroll-indicator');
 

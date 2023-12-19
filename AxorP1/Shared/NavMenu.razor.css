@@ -97,7 +97,6 @@
 }
 
 
-
 /* Sidebar scroll button for small screens */
 
 .scroll-indicator {
@@ -118,7 +117,7 @@
 }
 
     .scroll-indicator::after {
-        content: '\2193';
+        content: '\2193'; 
         font-size: 20px;
         color: #888;
     }
