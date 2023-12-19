@@ -41,12 +41,7 @@
                         Logger.LogError($"Error displaying navbar links: {ex.Message} {ex.StackTrace}");
                     }
 
-                    @*Theme switcher*@
-                        <div class="theme-switch">
-                            <span class="nav-text @ToggleClass">
-                                <SfSwitch CssClass="btnSwitch" Checked="@isDarkMode" OnLabel="Dark" OffLabel="Light" ValueChange="@switchStateChanged"></SfSwitch>
-                            </span>
-                        </div>
+                   
 
                     @* Scroll indicator when items overflow *@
                     <div class="scroll-indicator" onclick="scrollDown()"></div>
@@ -54,20 +49,6 @@
                 </nav>
             </ChildContent>
      </SfSidebar>
-
-
-
-    @*Initialize the Toolbar component*@
-
-    <SfToolbar CssClass="dockToolbar" Width="100%">
-        <ToolbarItems>
-             <ToolbarItem Align="ItemAlign.Left">
-                <Template>
-                    <span><img class="navbar-brand" alt="Logo" src="/images/ICONE-AXOR_BLANC.svg" /></span>
-                </Template>
-            </ToolbarItem>
-        </ToolbarItems>
-    </SfToolbar>
 </div>
 
 

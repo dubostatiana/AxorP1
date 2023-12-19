@@ -11,10 +11,6 @@ namespace AxorP1.Shared
     {
         protected SfSidebar SidebarRef;
 
-        // Theme Switcher
-        protected bool isDarkMode = false;
-        protected EventCallback<ChangeEventArgs<bool?>> switchStateChanged;
-
         // Specify the value of Sidebar component state (open/close).
         protected bool SidebarToggle = false;
         protected string ToggleClass = "close";
@@ -36,8 +32,6 @@ namespace AxorP1.Shared
         {
             NavigationManager.LocationChanged += HandleLocationChanged;
 
-            switchStateChanged = EventCallback.Factory.Create<ChangeEventArgs<bool?>>(this, HandleSwitchStateChanged);
-
             base.OnInitialized();
         }
 
@@ -52,25 +46,6 @@ namespace AxorP1.Shared
         }
 
 
-        protected void HandleSwitchStateChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
-        {
-            isDarkMode = (bool)args.Checked;
-
-            // (true for dark mode, false for light mode)
-            if (isDarkMode)
-            {
-                // Dark mode is enabled
-               // AppTheme = Syncfusion.Blazor.Theme.FluentDark;
-                
-                
-            }
-            else
-            {
-                // Light mode is enabled
-                
-            }
-        }
-
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
@@ -78,8 +53,6 @@ namespace AxorP1.Shared
             await JSRuntime.InvokeVoidAsync("checkOverflow");
 
         }
-
-
     }
 }
 

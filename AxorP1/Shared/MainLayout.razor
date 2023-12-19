@@ -1,12 +1,34 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
+
     <div class="menu">
         <NavMenu />
     </div>
 
     <div class="page-content">
         <main class="main">
+
+            @*Initialize the Toolbar component*@
+            <SfToolbar CssClass="dockToolbar" Width="100%">
+                <ToolbarItems>
+                    <ToolbarItem Align="ItemAlign.Left">
+                        <Template>
+                            @* Logo image  *@
+                            <span class="w-auto"><img class="navbar-brand" alt="Logo" src="/images/ICONE-AXOR_BLANC.svg" /></span>
+                        </Template>
+                    </ToolbarItem>
+                    <ToolbarItem Align="ItemAlign.Right">
+                        <Template>
+                            @*Theme switcher*@
+                            <div class="theme-switch">
+                               <SfSwitch CssClass="btnSwitch" Checked="@isDarkMode" OnLabel="Dark" OffLabel="Light" ValueChange="@switchStateChanged"></SfSwitch>
+                            </div>
+                        </Template>
+                    </ToolbarItem>
+                </ToolbarItems>
+            </SfToolbar>
+
             <article class="content">
                 @Body
             </article>
@@ -19,3 +41,37 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+
+@code {
+
+    // Theme Switcher
+    protected bool isDarkMode = false;
+    protected EventCallback<ChangeEventArgs<bool?>> switchStateChanged;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        switchStateChanged = EventCallback.Factory.Create<ChangeEventArgs<bool?>>(this, HandleSwitchStateChanged);
+    }
+
+    protected void HandleSwitchStateChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        isDarkMode = (bool)args.Checked;
+
+        // (true for dark mode, false for light mode)
+        if (isDarkMode)
+        {
+            // Dark mode is enabled
+            // AppTheme = Syncfusion.Blazor.Theme.FluentDark;
+
+
+        }
+        else
+        {
+            // Light mode is enabled
+
+        }
+    }
+}
