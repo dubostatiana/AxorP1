@@ -15,11 +15,29 @@ namespace AxorP1.Shared
         protected bool SidebarToggle = false;
         protected string ToggleClass = "close";
 
+        // Lock the Sidebar in open state
+        protected bool SidebarLocked = false;
+
         // Event handler for Clicked event. It's used to open/close the Sidebar component. 
         protected void ToggleSidebar(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
-        {
-            SidebarToggle = !SidebarToggle;
-            ToggleClass = SidebarToggle ? "open" : "close";
+        { 
+            if (SidebarToggle == true)
+            {
+                // Lock or unlock the Sidebar
+                SidebarLocked = !SidebarLocked;
+            }
+
+            
+            if(SidebarLocked == false) 
+            {
+                // If Sidebar is not lock
+                SidebarToggle = !SidebarToggle;
+                ToggleClass = SidebarToggle ? "open" : "close";
+            }
+            else
+            {
+                ToggleClass += " locked";
+            }
         }
 
         // Method to handle the close event
@@ -40,8 +58,12 @@ namespace AxorP1.Shared
         {
             if (SidebarRef.IsOpen)
             {
-                SidebarToggle = false;
-                StateHasChanged();
+                if (SidebarLocked == false)
+                { 
+                    // If Sidebar is not lock
+                    SidebarToggle = false;
+                    StateHasChanged();
+                }
             }
         }
 
@@ -50,7 +72,6 @@ namespace AxorP1.Shared
         {
             await base.OnAfterRenderAsync(firstRender);
 
-            await JSRuntime.InvokeVoidAsync("checkOverflow");
 
         }
     }

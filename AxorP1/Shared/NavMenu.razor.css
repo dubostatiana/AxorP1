@@ -27,11 +27,11 @@
  /* Toggle Sidebar button */
 ::deep .nav-toggler {
     border: none;
-    outline: none;
     width: 100%;
     height: 1rem;
     padding: 1.2rem;
     transition: background 0.5s linear;
+    position:relative;
 }
 
 ::deep .nav-toggler:focus {
@@ -47,9 +47,25 @@
         background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3crect /%3e%3cpath stroke='black' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M7 7L23 23M7 23L23 7'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
     }
 
+        ::deep .nav-toggler.open.locked:before {
+            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'  width='1rem' height='1rem'%3E%3Cpath stroke='black' stroke-width='0.2' d='M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9069372 8 4 8.9069372 4 10 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 10 C 20 8.9069372 19.093063 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 6 10 L 18 10 L 18 20 L 6 20 L 6 10 z M 12 13 C 10.9 13 10 13.9 10 15 C 10 16.1 10.9 17 12 17 C 13.1 17 14 16.1 14 15 C 14 13.9 13.1 13 12 13 z'/%3E%3C/svg%3E");
+            position: absolute;
+            top: 0.25rem;
+        }
+        
+        
+
 /* Nav Items */
 
-.syncfusion-blazor-icons {
+
+.nav-items {
+    height: calc(100vh - 1.8rem);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+.icons {
     color: black;
 }
 
@@ -69,7 +85,7 @@
     }
 
     .nav-item:last-of-type {
-        padding-bottom: 1rem;
+        padding-bottom: 0.5rem;
     }
 
     .nav-item ::deep a {
@@ -97,27 +113,25 @@
 }
 
 
-/* Sidebar scroll button for small screens */
 
-.scroll-indicator {
-    display: none;
-    position: fixed;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 30px;
-    background-color: #faf9f8;
-    border: 1px solid #888;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.2s transform ease-in-out;
+/* Style the scrollbar for WebKit/Blink browsers (Chrome, Safari, Opera) */
+.nav-items::-webkit-scrollbar {
+    /* Set initial width to 0 */
+    width: 0;
 }
 
-    .scroll-indicator::after {
-        content: '\2193'; 
-        font-size: 20px;
-        color: #888;
-    }
+/* Set the width to 4px when hovering over .nav-items */
+.nav-items:hover::-webkit-scrollbar {
+    width: 4px;
+}
+
+.nav-items::-webkit-scrollbar-thumb {
+    display: none;
+    border-radius: 10px;
+}
+
+/* Show the thumb on hover */
+.nav-items:hover::-webkit-scrollbar-thumb {
+    display: initial;
+    background-color: rgba(0, 128, 96, 0.8);
+}
