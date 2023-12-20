@@ -31,7 +31,7 @@
     background: #faf9f8 !important;
     position: sticky;
     top: 0px;
-    z-index: 9999; 
+    z-index: 9999 !important; 
 }
 
 ::deep .e-toolbar-items {
@@ -46,24 +46,15 @@
 
 /* Theme switcher */
 
-::deep .theme-switch {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 ::deep .btnSwitch {
-    width: 60px;
-    height: 30px;
-    border-radius: 15px;
-    cursor: pointer;
-    overflow: hidden;
+    width: 70px;
+    height: 30px;  
 }
 
 /* NavMenu Component : Sidebar related styles */
 
 ::deep .dockSidebar {
-    z-index: 9999;
+    z-index: 9999 !important;
     overflow: hidden;
     position: fixed !important;
     background-color: #faf9f8 !important;
