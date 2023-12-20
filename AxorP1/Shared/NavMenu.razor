@@ -19,21 +19,17 @@
                     </div>
                     @try
                     {
-                        @if (DataSource.Count() != 0)
-                        {
-                            @foreach (var station in DataSource)
+                         @foreach (var station in DataProvider.GetMapDetails())
                             {
-                                var path = "station/" + station.StationName.ToString();
+                                var path = "station/" + station.Name.Trim().ToString();
 
                                 <div class="nav-item">
                                     <NavLink class="nav-link" href="@path" Match="NavLinkMatch.Prefix">
                                         <span class="syncfusion-blazor-icons syncfusion-blazor-icon-datagrid icons" aria-hidden="true"></span>
-                                        <span class="nav-text  @ToggleClass">@station.StationName</span>
+                                        <span class="nav-text  @ToggleClass">@station.Name</span>
                                     </NavLink>
                                 </div>
-                            }
-                        }
-
+                          }
                     }
                     catch (Exception ex)
                     {

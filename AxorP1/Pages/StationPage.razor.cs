@@ -21,22 +21,22 @@ namespace AxorP1.Pages
         {
             await base.OnParametersSetAsync();
 
-            await NewDataAsync();
-
             Dictionary<string, int> stationIdToNumber = new Dictionary<string, int>
             {
-                { "Station 1", 1 },
-                { "Station 2", 2 },
-                { "Station 3", 3 },
-                { "Station 4", 4 },
-                { "Station 5", 5 },
-                { "Station 6", 6 },
-                { "Station 7", 7 }
+                { "Chutes-à-Gorry", 1 },
+                { "Jean-Guérin", 2 },
+                { "Hydro-Canyon", 3 },
+                { "Petites-Bergeronnes", 4 },
+                { "Franquelin", 5 },
+                { "Sheldrake", 6 },
+                { "Long Rapids", 7 }
             };
 
             // Get the value associated with the key
             num = stationIdToNumber.TryGetValue(id.Trim(), out var result) ? result : 1;
 
+            // Update the DataSource
+            await NewDataAsync();
             // Update PastDataSource List with the data of the wanted station 
             await UpdatePastDataSourceAsync(num);
 
@@ -48,11 +48,11 @@ namespace AxorP1.Pages
 
         private async Task NewDataAsync()
         {
-            // Update the data source
+            // Update the DataSource
             await UpdateDataSourceAsync();
 
             // Get Station object
-            Station = DataSource.FirstOrDefault(obj => obj.StationName == id.Trim());
+            Station = DataSource.FirstOrDefault(obj => obj.StationName == $"Station {num}");
 
             await InvokeAsync(async () =>
             {

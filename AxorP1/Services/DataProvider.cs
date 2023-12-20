@@ -9,13 +9,13 @@ namespace AxorP1.Services
         // Axor hydroelectric power stations within Canada
         private List<StationMapData> MapDetails = new List<StationMapData>
         {
-            new StationMapData { Name = "Station 1", Latitude = 55.4215, Longitude = -75.6993 },
-            new StationMapData { Name = "Station 2", Latitude = 60.5461, Longitude = -120.4938 },
-            new StationMapData { Name = "Station 3", Latitude = 49.2827, Longitude = -123.1207 },
-            new StationMapData { Name = "Station 4", Latitude = 43.6532, Longitude = -79.3832 },
-            new StationMapData { Name = "Station 5", Latitude = 50.8139, Longitude = -60.208 },
-            new StationMapData { Name = "Station 6", Latitude = 53.9333, Longitude = -116.5765 },
-            new StationMapData { Name = "Station 7", Latitude = 45.5017, Longitude = -73.5673 },
+            new StationMapData { Name = "Chutes-à-Gorry", Latitude = 46.78983433499708, Longitude = -72.00353219004116 }, // Sainte-Anne / Chutes-à-Gorry
+            new StationMapData { Name = "Jean-Guérin", Latitude = 46.63504334946685, Longitude = -71.044330699399 }, // Jean-Guérin 
+            new StationMapData { Name = "Hydro-Canyon", Latitude = 47.055080489178124, Longitude = -70.84331694178222 }, // Hydro-Canyon Saint-Joachim  
+            new StationMapData { Name = "Petites-Bergeronnes", Latitude = 48.262531954209, Longitude = -69.63143815475888 }, // Petites-Bergeronnes 
+            new StationMapData { Name = "Franquelin", Latitude = 49.298872387059106, Longitude = -67.84395606024589 }, // Franquelin 
+            new StationMapData { Name = "Sheldrake", Latitude = 50.28440380362198, Longitude = -64.9309060547453 }, // Sheldrake 
+            new StationMapData { Name = "Long Rapids", Latitude = 48.60275472499946, Longitude = -88.78180622752375 }, // Long Rapids et Twin Falls 
         };
 
         // Method to get the data
