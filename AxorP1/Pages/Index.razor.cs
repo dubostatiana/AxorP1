@@ -96,6 +96,7 @@ namespace AxorP1.Pages
         {
             await IsLayoutStackedAsync();
 
+            await Task.Delay(500);
             RefreshPanel("panelMap");
             DashboardLayout?.RefreshAsync();
         }

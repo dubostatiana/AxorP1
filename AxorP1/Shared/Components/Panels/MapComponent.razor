@@ -25,8 +25,8 @@
                 <MapsDataLabelSettings Visible="true" LabelPath="prov_name_fr" IntersectionAction="IntersectAction.Hide"></MapsDataLabelSettings>
                 <MapsShapeSettings Autofill="true"></MapsShapeSettings>
 
-                <MapsZoomSettings Enable="@EnableZoom">
-                    <MapsZoomToolbarSettings @attributes="@ZoomToolBarAttributes"></MapsZoomToolbarSettings>
+                <MapsZoomSettings Enable="@EnableZoom" ShouldZoomInitially="true" EnablePanning="true" ZoomOnClick="true">
+                    <MapsZoomToolbarSettings @attributes="@ZoomToolBarAttributes"></MapsZoomToolbarSettings>   
                 </MapsZoomSettings>
 
             </MapsLayer>
@@ -63,7 +63,7 @@
 
             //  Parent Layout is determined after a delay,
             //  a delay must be provided before refreshing the Maps component
-            await Task.Delay(1000);
+            await Task.Delay(500);
         }
 
         MapRef?.Refresh();
@@ -83,8 +83,5 @@
             type = "GET",
             dataOptions = "maps/Canada.json"
     };
-
-
-    
 
 }
