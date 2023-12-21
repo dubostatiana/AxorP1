@@ -97,7 +97,7 @@ namespace AxorP1.Pages
         // Dashboard event OnWindowResize
         public async Task OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
         {
-            
+            await DashboardLayout?.RefreshAsync();
         }
 
         // Refresh the content of Dashboard panels

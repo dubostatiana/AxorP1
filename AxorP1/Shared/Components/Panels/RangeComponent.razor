@@ -4,8 +4,7 @@
 {
     <div class="rangeContainer">
         <div class="rangeNavigator">
-            <div>
-                <SfRangeNavigator @ref=RangeRef Id="rangeNav" Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%">
+                <SfRangeNavigator @ref=RangeRef Id="rangeNav" Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%" >
 
                     <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
                     <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
@@ -18,9 +17,10 @@
                     </RangeNavigatorSeriesCollection>
 
                 </SfRangeNavigator>
-            </div>
-            <div>
-                <SfChart @ref="ChartRef" ID="rangeNavChart" Theme="@RangeTheme" Width="100%" Height="100%">
+        </div>
+
+        <div class="rangeChart">
+                <SfChart @ref="ChartRef" ID="rangeNavChart" Theme="@RangeTheme" Width="100%" Height="100%" >
 
                     <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
 
@@ -46,11 +46,9 @@
                     </ChartSeriesCollection>
 
                 </SfChart>
-
-            </div>
         </div>
-
     </div>
+
 }
 
 @code {
@@ -97,8 +95,11 @@
         //  a delay must be provided before refreshing the Range component
         await Task.Delay(500);
 
-       RangeRef?.RefreshAsync();
-       ChartRef?.RefreshAsync();
+        // Refreshing RangeNavigator two times for better render
+        await RangeRef?.RefreshAsync();
+        await RangeRef?.RefreshAsync();
+
+        await ChartRef?.RefreshAsync();
     }
 
 
@@ -107,23 +108,17 @@
 
 <style>
 
-    /* Apply styles to the container of the SfRangeNavigator */
+.rangeContainer {
+   height: inherit;
+   width:inherit;
+}
   
-    .rangeContainer {
-      width:100%;
-      height: 100%;
-    }
+.rangeNavigator {
+   height: 25%
+}
 
-    .rangeNavigator {
-        width: inherit ;
-        height: inherit ;
-        overflow:auto;
-        
-    }       
-    
-    #rangeNav,#rangeNavChart {
-    }
-
-
+.rangeChart {
+   height: 75%
+}
 
 </style>
