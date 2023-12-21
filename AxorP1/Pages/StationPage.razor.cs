@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using AxorP1.Class;
 using AxorP1.Components;
 using AxorP1.Shared.Components.Panels;
 using Microsoft.AspNetCore.Components;
@@ -7,7 +8,7 @@ using Syncfusion.Blazor.Layouts;
 
 namespace AxorP1.Pages
 {
-    public class StationPageBase : MainComponent<StationPage>
+    public class StationPageBase : MainComponent<StationPage>, IDisposable
     {
         [Parameter] public string id { get; set; } = string.Empty;
 
@@ -15,7 +16,16 @@ namespace AxorP1.Pages
         protected Class.Station? Station { get; set; }
 
         protected SfDashboardLayout? DashboardLayout;
-        protected RangeComponent? RangeComponent;
+
+        // List of Component references
+        protected List<ComponentBase> componentsReferences = new List<ComponentBase>() { };
+        protected ComponentBase? componentReference
+        {
+            set
+            {
+                if (value is not null) componentsReferences.Add(value);
+            }
+        }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -67,19 +77,53 @@ namespace AxorP1.Pages
             
         }
 
+        // Implement IDisposable
+        public void Dispose()
+        {
+            Logger.LogInformation($"Station Dashboard disposed");
+            RefProvider.StationDashboard = null;
+        }
 
         // Dashboard event Created
-        public void Created(Object args)
+        public async void Created(Object args)
         {
-            Logger.LogInformation($"StationPage Dashboard created");
-            RangeComponent?.Refresh();
+            Logger.LogInformation($"Station Dashboard created");
+            RefProvider.StationDashboard = this;
+
+            await Task.Delay(500);
+            await RefreshAllPanelsAsync();
         }
 
         // Dashboard event OnWindowResize
         public async Task OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
         {
-           
+            
+        }
+
+        // Refresh the content of Dashboard panels
+        public void RefreshPanel(int index)
+        {
+            // Get the component instance corresponding to the panel
+            var component = componentsReferences[index];
+
+            // Check the type of the component and perform a refresh
+            if (component is RangeComponent rangeComponent)
+            {
+                    rangeComponent.Refresh();
+            }
+        }
+
+        public async Task RefreshAllPanelsAsync()
+        {
             await DashboardLayout?.RefreshAsync();
+
+            await Task.Delay(500);
+
+            // Iterate through all panels and refresh their content
+            foreach (var panelNum in Enumerable.Range(0, componentsReferences.Count))
+            {
+                RefreshPanel(panelNum);
+            }
         }
 
     }

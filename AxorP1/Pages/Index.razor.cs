@@ -36,6 +36,7 @@ namespace AxorP1.Pages
             } 
         }
 
+        // Indicates if DashboardLayout panels are stacked 
         protected bool IsStacked { get; private set; }
 
         protected override async Task OnInitializedAsync()
@@ -70,20 +71,25 @@ namespace AxorP1.Pages
         // Implement IDisposable
         public void Dispose()
         {
-            
+            Logger.LogInformation($"Main Dashboard disposed");
+            RefProvider.MainDashboard = null;
         }
 
         // Dashboard event Created
         public async void Created(Object args)
         {
-            Logger.LogInformation($"Dashboard created");
+            Logger.LogInformation($"Main Dashboard created");
+            RefProvider.MainDashboard = this;
 
             await IsLayoutStackedAsync();
-           
+
+            await Task.Delay(500);
+            await DashboardLayout?.RefreshAsync();
+
+            // Initiate components that need to be notified to render
             RefreshPanel("panelPieChart");
             RefreshPanel("panelMap");
         }
-
 
         // Dashboard event OnResizeStop
         public void OnResizeStop(Syncfusion.Blazor.Layouts.ResizeArgs args)
@@ -96,12 +102,10 @@ namespace AxorP1.Pages
         {
             await IsLayoutStackedAsync();
 
-            await Task.Delay(500);
-            RefreshPanel("panelMap");
-            DashboardLayout?.RefreshAsync();
+            RefreshAllPanelsAsync();
         }
 
-        // Refresh the content of a panel
+        // Refresh the content of Dashboard panels
         public void RefreshPanel(string id)
         {
             // Avoid IndexOutOfBound exception
@@ -135,14 +139,28 @@ namespace AxorP1.Pages
             }
         }
 
+        public async Task RefreshAllPanelsAsync()
+        {
+            await DashboardLayout?.RefreshAsync();
+
+            await Task.Delay(500);
+
+            // Iterate through all panels and refresh their content
+            foreach (var panel in PanelData)
+            {
+                RefreshPanel(panel.Id);
+            }
+        }
+
         // Verify if the DashboardLayout panels are stacked
         public async Task IsLayoutStackedAsync()
         {
             double width = await JSRuntime.InvokeAsync<double>("getWidth");
-            IsStacked = (width <= MaxWidth) ? true : false;
+            bool IsLayoutStacked = (width <= MaxWidth) ? true : false;
 
-            if (IsStacked)
+            if (IsStacked != IsLayoutStacked)
             {
+                IsStacked = IsLayoutStacked;
                 StateHasChanged();
             }
         }
@@ -167,7 +185,8 @@ namespace AxorP1.Pages
         }
 
 
-        // Initialize the dashboard panel objects
+
+        // ********** Initialize the dashboard panel objects *************
         public void InitializedPanelData()
         {
             PanelData = new List<PanelObject>()
