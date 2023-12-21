@@ -25,7 +25,7 @@
                 <MapsDataLabelSettings Visible="true" LabelPath="prov_name_fr" IntersectionAction="IntersectAction.Hide"></MapsDataLabelSettings>
                 <MapsShapeSettings Autofill="true"></MapsShapeSettings>
 
-                <MapsZoomSettings Enable="@EnableZoom" ShouldZoomInitially="true" EnablePanning="true" ZoomOnClick="true">
+                <MapsZoomSettings Enable="@EnableZoom" EnablePanning="true" ZoomOnClick="true">
                     <MapsZoomToolbarSettings @attributes="@ZoomToolBarAttributes"></MapsZoomToolbarSettings>   
                 </MapsZoomSettings>
 
@@ -60,11 +60,14 @@
         {
             IsParentCreated = true;
             StateHasChanged();
-
-            //  Parent Layout is determined after a delay,
-            //  a delay must be provided before refreshing the Maps component
-            await Task.Delay(500);
         }
+
+        //  Parent Layout is determined after a delay,
+        //  a delay must be provided before refreshing the Maps component
+        await Task.Delay(500);
+
+        // Zoom on Quebec
+        MapRef?.ZoomByPosition(new MapsCenterPosition() { Latitude = 51.44820558415834, Longitude = -73.5423590243904 }, 4);
 
         MapRef?.Refresh();
     }
