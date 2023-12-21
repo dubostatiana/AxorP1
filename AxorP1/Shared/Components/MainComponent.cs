@@ -1,7 +1,9 @@
 ﻿using AxorP1.Class;
+using AxorP1.Pages;
 using AxorP1.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Syncfusion.Blazor.Layouts;
 using Timer = System.Timers.Timer;
 
 namespace AxorP1.Components
@@ -9,6 +11,7 @@ namespace AxorP1.Components
     public class MainComponent<T> : ComponentBase
     {
         [Inject] protected DataProvider DataProvider { get; set; }
+        [Inject] protected RefProvider RefProvider { get; set; }
         [Inject] protected ILogger<T> Logger { get; set; }
         [Inject] protected NavigationManager NavigationManager { get; set; }
         [Inject] protected IJSRuntime JSRuntime { get; set; }
@@ -19,9 +22,10 @@ namespace AxorP1.Components
         protected List<Station> DataSource = new List<Station>();
         protected List<Station> PastDataSource = new List<Station>();
 
+        // App Settings
         protected static Syncfusion.Blazor.Theme AppTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
         protected static int MaxWidth = 799;
-        protected string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
+        protected static string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
 
         protected override async Task OnInitializedAsync()
         {

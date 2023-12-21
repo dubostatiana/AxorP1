@@ -4,10 +4,10 @@
 <div id="nav-container">
     @*Initialize the Sidebar component*@
     
-    <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".page-content" MediaQuery="@MaxWidth.ToString()" EnableDock="true" Type="@Type" @bind-IsOpen="SidebarToggle" OnClose="@OnClose"  CloseOnDocumentClick="true">
+    <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".page-content" MediaQuery="@MaxWidth.ToString()" @bind-IsOpen="@SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" EnableDock="true" Type="@Type">
             <ChildContent>
                 @*Toggle button for the sidebar*@
-            <div><SfButton CssClass="@ToggleClass" OnClick="@ToggleSidebarAsync" class="nav-toggler"></SfButton></div>
+            <div><SfButton class="nav-toggler" CssClass="@ToggleClass" OnClick="@ToggleSidebarAsync"></SfButton></div>
 
             <nav class="nav-items">
                     @* Nav Links *@

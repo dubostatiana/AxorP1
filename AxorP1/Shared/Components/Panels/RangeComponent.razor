@@ -87,13 +87,15 @@
 
     public async void Refresh()
     {
-        await Task.Delay(500);
 
         if (!IsParentCreated)
         {
             IsParentCreated = true;
             StateHasChanged();
         }
+        //  Parent Layout is determined after a delay,
+        //  a delay must be provided before refreshing the Range component
+        await Task.Delay(500);
 
        RangeRef?.RefreshAsync();
        ChartRef?.RefreshAsync();
