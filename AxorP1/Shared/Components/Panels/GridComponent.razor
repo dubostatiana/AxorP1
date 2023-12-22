@@ -1,4 +1,5 @@
 ﻿@typeparam GridTValue
+@inject ILogger<GridComponent<GridTValue>> Logger
 
 @* GRID COMPONENT *@
 
@@ -50,7 +51,17 @@
 
     public void Refresh()
     {
-        GridRef?.Refresh();
+        try
+        {
+            if(GridRef != null)
+            {
+                GridRef?.Refresh();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Error trying to Refresh GridComponent : {ex.Message}\n{ex.StackTrace}");
+        }
     }
 
     public class GridColumnsConfig

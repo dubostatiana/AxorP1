@@ -1,16 +1,14 @@
-﻿using Timer = System.Timers.Timer;
-using Syncfusion.Blazor.Layouts;
-using AxorP1.Class;
+﻿using AxorP1.Class;
+using AxorP1.Components;
+using AxorP1.Services;
 using AxorP1.Shared.Components.Panels;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using Syncfusion.Blazor.Layouts;
+using Syncfusion.Blazor.Maps;
 using static AxorP1.Shared.Components.Panels.ChartComponent;
 using static AxorP1.Shared.Components.Panels.GridComponent<AxorP1.Class.Station>;
 using static AxorP1.Shared.Components.Panels.PieChartComponent;
-using AxorP1.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
-using Syncfusion.Blazor.Maps;
-using AxorP1.Components;
-using System.Runtime.CompilerServices;
 
 
 namespace AxorP1.Pages
@@ -18,22 +16,24 @@ namespace AxorP1.Pages
     public class IndexBase : MainComponent<Index>, IDisposable
     {
 
-        protected List<PanelObject> PanelData { get; set; } = new List<PanelObject>(); // List of Dashboard Panels 
+        protected List<PanelObject> PanelData = new List<PanelObject>(); // List of Dashboard Panels 
 
         // DashboardLayout attributs
         protected SfDashboardLayout? DashboardLayout;
-        
+        protected bool IsDisposed = true;
+
         public int Columns = 4;
         public static double[] Spacing = new double[] { 10, 10 };
         public double Ratio = 160 / 100;
 
         // List of DynamicComponent references
         protected List<DynamicComponent> componentsReferences = new List<DynamicComponent>();
-        protected DynamicComponent? componentReference {
+        protected DynamicComponent? componentReference
+        {
             set
             {
                 if (value is not null) componentsReferences.Add(value);
-            } 
+            }
         }
 
         // Indicates if DashboardLayout panels are stacked 
@@ -62,10 +62,7 @@ namespace AxorP1.Pages
             InitializedPanelData();
 
             // Re-render components
-            if(DashboardLayout != null) 
-            {
-                await DashboardLayout.RefreshAsync();
-            }
+            await RefreshDashboard();
         }
 
         // Implement IDisposable
@@ -73,6 +70,9 @@ namespace AxorP1.Pages
         {
             Logger.LogInformation($"Main Dashboard disposed");
             RefProvider.MainDashboard = null;
+            componentsReferences.Clear();
+            DashboardLayout = null;
+            IsDisposed = true;
         }
 
         // Dashboard event Created
@@ -80,11 +80,12 @@ namespace AxorP1.Pages
         {
             Logger.LogInformation($"Main Dashboard created");
             RefProvider.MainDashboard = this;
+            IsDisposed = false;
 
             await IsLayoutStackedAsync();
 
             await Task.Delay(500);
-            await DashboardLayout?.RefreshAsync();
+            await RefreshDashboard();
 
             // Initiate components that need to be notified to render
             RefreshPanel("panelPieChart");
@@ -102,14 +103,30 @@ namespace AxorP1.Pages
         {
             await IsLayoutStackedAsync();
 
-            RefreshAllPanelsAsync();
+            await RefreshAllPanelsAsync();
+        }
+
+
+        public async Task RefreshDashboard()
+        {
+            try
+            {
+                if (DashboardLayout != null && !IsDisposed)
+                {
+                    await DashboardLayout?.RefreshAsync();
+                }
+            }
+            catch (Exception ex) 
+            {
+                Logger.LogError($"Error trying to Refresh Main Dashboard : {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         // Refresh the content of Dashboard panels
         public void RefreshPanel(string id)
         {
             // Avoid IndexOutOfBound exception
-            if (PanelData.Count != componentsReferences.Count) { return; }
+            if (PanelData.Count != componentsReferences.Count || IsDisposed) { return; }
 
             // Find the index of the panel 
             int index = PanelData.FindIndex(obj => obj.Id == id);
@@ -130,7 +147,7 @@ namespace AxorP1.Pages
                 }
                 else if (component is MapComponent<StationMapData> mapComponent)
                 {
-                    mapComponent.Refresh();
+                    mapComponent.Refresh();  
                 }
                 else if (component is PieChartComponent pieComponent)
                 {
@@ -141,7 +158,7 @@ namespace AxorP1.Pages
 
         public async Task RefreshAllPanelsAsync()
         {
-            await DashboardLayout?.RefreshAsync();
+            await RefreshDashboard();
 
             await Task.Delay(500);
 
@@ -155,13 +172,20 @@ namespace AxorP1.Pages
         // Verify if the DashboardLayout panels are stacked
         public async Task IsLayoutStackedAsync()
         {
-            double width = await JSRuntime.InvokeAsync<double>("getWidth");
-            bool IsLayoutStacked = (width <= MaxWidth) ? true : false;
-
-            if (IsStacked != IsLayoutStacked)
+            try
             {
-                IsStacked = IsLayoutStacked;
-                StateHasChanged();
+                double width = await JSRuntime.InvokeAsync<double>("getWidth");
+                bool IsLayoutStacked = (width <= MaxWidth) ? true : false;
+
+                if (IsStacked != IsLayoutStacked)
+                {
+                    IsStacked = IsLayoutStacked;
+                    StateHasChanged();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Error Invoking JSRuntime in IsLayoutStackedAsync() : {ex.Message}\n{ex.StackTrace}");
             }
         }
 
@@ -180,7 +204,7 @@ namespace AxorP1.Pages
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Error navigating to station page: {ex.Message} {ex.StackTrace}");
+                Logger.LogError($"Error navigating to station page in OnMarkerClickEvent(): {ex.Message}\n{ex.StackTrace}");
             }
         }
 
@@ -878,19 +902,19 @@ namespace AxorP1.Pages
                                     {"AnimationDelay", 0.0 },
                                     {"AnimationDuration", 0.0 },
 
-                                } 
+                                }
                              },
                              {"MarkerToolTipAttributes", new Dictionary<string, object>()
                                 {
                                     {"Visible", true },
                                     {"ValuePath", nameof(StationMapData.Name) },
-                                } 
+                                }
                              },
                              {"ZoomToolBarAttributes", new Dictionary<string, object>()
                                 {
                                     {"HorizontalAlignment", Syncfusion.Blazor.Maps.Alignment.Near },
                                     {"Orientation", Syncfusion.Blazor.Maps.Orientation.Vertical },
-                                } 
+                                }
                              },
                          }
                      },
@@ -900,7 +924,7 @@ namespace AxorP1.Pages
                          {
                              { "PieChartId", "pieChart" },
                              { "ChartTheme", AppTheme },
-                            
+
                              {"ToolTipAttributes", new Dictionary<string, object>()
                                 {
                                     {"Enable", true },
@@ -942,6 +966,6 @@ namespace AxorP1.Pages
             };
         }
 
-       
+
     }
 }

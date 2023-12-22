@@ -1,9 +1,8 @@
-﻿using System;
-using AxorP1.Class;
+﻿using AxorP1.Class;
 
 namespace AxorP1.Services
 {
-    public class DataProvider 
+    public class DataProvider
     {
 
         // Axor hydroelectric power stations within Canada

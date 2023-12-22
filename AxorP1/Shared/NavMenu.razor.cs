@@ -46,6 +46,7 @@ namespace AxorP1.Shared
         // Close Sidebar when location changed
         private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
         {
+
             if (SidebarRef.IsOpen)
             {
                 if (SidebarLocked == false)
@@ -68,24 +69,31 @@ namespace AxorP1.Shared
             }
             else
             {
-                // If Sidebar is closed
-                // Change the SidebarType depending on screen size
+                try
+                { 
+                    // If Sidebar is closed
+                    // Change the SidebarType depending on screen size
+                    double width = await JSRuntime.InvokeAsync<double>("getWidth");
+                    bool IsSmallScreen = (width <= 600) ? true : false;
 
-                double width = await JSRuntime.InvokeAsync<double>("getWidth");
-                bool IsSmallScreen = (width <= 600) ? true : false;
-
-                if (IsSmallScreen)
-                {
-                    Type = SidebarType.Over;
+                    if (IsSmallScreen)
+                    {
+                        // Type = SidebarType.Over;
+                    }
+                    else
+                    {
+                        Type = SidebarType.Push;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Type = SidebarType.Push;
+                    Logger.LogError($"Error Invoking JSRuntime at ToggleSidebarAsync() : {ex.Message}\n{ex.StackTrace}");
                 }
+                
             }
 
             // If Sidebar is not lock
-            if (SidebarLocked == false) 
+            if (SidebarLocked == false)
             {
                 // open/close the Sidebar 
                 SidebarToggle = !SidebarToggle;
@@ -118,11 +126,11 @@ namespace AxorP1.Shared
         // Method triggered when SidebarToggle changes
         private async void IsOpenChanged()
         {
-           await Task.Delay(500);
+            await Task.Delay(500);
 
-           // Refresh Dashboard Panels
-           RefProvider.MainDashboard?.RefreshAllPanelsAsync();
-           RefProvider.StationDashboard?.RefreshAllPanelsAsync();
+            // Refresh Dashboard Panels
+            RefProvider.MainDashboard?.RefreshAllPanelsAsync();
+            RefProvider.StationDashboard?.RefreshAllPanelsAsync();
         }
 
 

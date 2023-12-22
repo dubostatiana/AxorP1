@@ -1,9 +1,7 @@
 ﻿using AxorP1.Class;
-using AxorP1.Pages;
 using AxorP1.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Syncfusion.Blazor.Layouts;
 using Timer = System.Timers.Timer;
 
 namespace AxorP1.Components
@@ -48,7 +46,7 @@ namespace AxorP1.Components
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Error Data source assignment: {ex.Message} {ex.StackTrace}");
+                Logger.LogError($"Error Data source assignment: {ex.Message}\n{ex.StackTrace}");
             }
         }
 
@@ -61,7 +59,7 @@ namespace AxorP1.Components
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Error Past Data source assignment: {ex.Message} {ex.StackTrace}");
+                Logger.LogError($"Error Past Data source assignment: {ex.Message}\n{ex.StackTrace}");
             }
         }
     }

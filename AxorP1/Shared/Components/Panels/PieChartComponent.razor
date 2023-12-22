@@ -1,4 +1,5 @@
-﻿
+﻿@inject ILogger<PieChartComponent> Logger
+
 @* PIE CHART FOR STATISTICS  *@
 
 @if (IsParentCreated)
@@ -51,8 +52,18 @@
             StateHasChanged();
         }
 
-        PieChartRef?.Refresh();
-    }
+        try {
+
+            if (PieChartRef != null)
+            {
+               PieChartRef?.Refresh();
+            }
+        }
+        catch(Exception ex)
+        {
+            Logger.LogError($"Error trying to Refresh PieChartComponent : {ex.Message}\n{ex.StackTrace}");
+        }
+}
 
     protected override bool ShouldRender()
     {

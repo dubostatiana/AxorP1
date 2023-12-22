@@ -1,4 +1,5 @@
-﻿
+﻿@inject ILogger<ChartComponent> Logger
+
 @* CHART COMPONENT *@
 
 <SfChart @ref="ChartRef"  ID="@ChartId" Theme="@ChartTheme" Width="100%" Height="100%">
@@ -68,7 +69,17 @@
 
     public void Refresh()
     {
-        ChartRef?.RefreshAsync();
+        try
+        {   
+            if(ChartRef != null)
+            {
+                ChartRef?.RefreshAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Error trying to Refresh ChartComponent : {ex.Message}\n{ex.StackTrace}");
+        }
     }
 
     public class ChartSeriesConfig

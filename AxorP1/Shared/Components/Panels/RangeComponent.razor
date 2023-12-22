@@ -1,4 +1,6 @@
-﻿@* RANGE NAVIGATOR COMPONENT *@
+﻿@inject ILogger<RangeComponent> Logger
+
+@* RANGE NAVIGATOR COMPONENT *@
 
 @if (IsParentCreated)
 {
@@ -80,7 +82,13 @@
     {
         ZF = args.ZoomFactor;
         ZP = args.ZoomPosition;
-        StateHasChanged();
+
+        InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+
+
     }
 
     public async void Refresh()
@@ -95,11 +103,26 @@
         //  a delay must be provided before refreshing the Range component
         await Task.Delay(500);
 
-        // Refreshing RangeNavigator two times for better render
-        await RangeRef?.RefreshAsync();
-        await RangeRef?.RefreshAsync();
+        try
+        {
+            if(RangeRef != null)
+            {
 
-        await ChartRef?.RefreshAsync();
+                // Refreshing RangeNavigator two times for better render
+                await RangeRef?.RefreshAsync();
+                await RangeRef?.RefreshAsync();
+            }
+
+            if(ChartRef != null)
+            {
+                await ChartRef?.RefreshAsync();
+            }
+
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"Error trying to Refresh RangeComponent : {ex.Message}\n{ex.StackTrace}");
+        }    
     }
 
 
