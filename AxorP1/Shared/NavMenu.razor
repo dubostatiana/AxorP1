@@ -4,7 +4,7 @@
 <div id="nav-container">
     @*Initialize the Sidebar component*@
     
-    <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".page-content" MediaQuery="@MaxWidth.ToString()" @bind-IsOpen="@SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" EnableDock="true" Type="@Type">
+    <SfSidebar class="dockSidebar" @ref="SidebarRef" Width="200px" DockSize="50px" Target=".page-content" MediaQuery="@MaxWidth.ToString()" @bind-IsOpen="@SidebarToggle" OnClose="@OnClose" CloseOnDocumentClick="true" EnableDock="true" Type="SidebarType.Push">
             <ChildContent>
                 @*Toggle button for the sidebar*@
             <div><SfButton class="nav-toggler" CssClass="@ToggleClass" OnClick="@ToggleSidebarAsync"></SfButton></div>

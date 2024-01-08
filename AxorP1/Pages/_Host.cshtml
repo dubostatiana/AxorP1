@@ -13,4 +13,29 @@
         return (window.innerWidth)
     }
 
+    function changeTheme(newLink) {
+
+        let existingLink = document.getElementById('theme-link');
+
+        if (!existingLink) {
+            existingLink = document.createElement('link');
+            existingLink.id = 'theme-link';
+            existingLink.rel = 'stylesheet';
+            document.head.appendChild(existingLink);
+        }
+
+        existingLink.href = newLink;
+    }
+
+    function setThemePreference(theme) {
+        localStorage.setItem('themePreference', theme);
+    }
+
+    function getThemePreference() {
+        return localStorage.getItem('themePreference') || 'light'; 
+    }
+
+
+  
+
 </script>

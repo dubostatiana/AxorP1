@@ -1,4 +1,5 @@
-﻿using AxorP1.Components;
+﻿using System.Security.AccessControl;
+using AxorP1.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Microsoft.JSInterop;
@@ -8,8 +9,7 @@ namespace AxorP1.Shared
 {
     public class NavMenuBase : MainComponent<NavMenu>
     {
-        protected SfSidebar SidebarRef;
-        protected SidebarType Type = SidebarType.Push;
+        protected SfSidebar? SidebarRef;
 
         // Lock the Sidebar in open state
         protected bool SidebarLocked = false;
@@ -78,11 +78,16 @@ namespace AxorP1.Shared
 
                     if (IsSmallScreen)
                     {
-                        // Type = SidebarType.Over;
+
+                        //SidebarRef.Type = SidebarType.Over;
+                        
                     }
                     else
                     {
-                        Type = SidebarType.Push;
+
+                        //SidebarRef.Type = SidebarType.Push;
+
+
                     }
                 }
                 catch (Exception ex)
@@ -129,8 +134,7 @@ namespace AxorP1.Shared
             await Task.Delay(500);
 
             // Refresh Dashboard Panels
-            RefProvider.MainDashboard?.RefreshAllPanelsAsync();
-            RefProvider.StationDashboard?.RefreshAllPanelsAsync();
+            await RefProvider.RefreshComponents();
         }
 
 

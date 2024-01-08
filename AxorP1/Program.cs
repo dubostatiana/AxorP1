@@ -16,6 +16,7 @@ builder.Services.AddServerSideBlazor(options =>
 // Custom services
 builder.Services.AddScoped<DataProvider>();
 builder.Services.AddScoped<RefProvider>();
+builder.Services.AddScoped<ThemeProvider>();
 
 // ILogger configuration
 builder.Logging.ClearProviders();

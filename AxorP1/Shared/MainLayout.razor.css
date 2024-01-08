@@ -6,6 +6,12 @@
     width: inherit;
 }
 
+    .page.dark {
+        background: black !important;
+        color: white !important;
+    }
+
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
@@ -34,6 +40,10 @@
     z-index: 9999 !important; 
 }
 
+    .dark ::deep .dockToolbar {
+        background-color: #252423 !important;
+    }
+
 ::deep .e-toolbar-items {
     background: transparent !important;
 }
@@ -51,6 +61,7 @@
     height: 30px;  
 }
 
+
 /* NavMenu Component : Sidebar related styles */
 
 ::deep .dockSidebar {
@@ -59,15 +70,54 @@
     position: fixed !important;
     background-color: #faf9f8 !important;
     height: 100%;
+    transform: translateX(0%) !important;
 }
+
+    .dark ::deep .dockSidebar {
+        background-color: #252423 !important;
+    }
+
+/* Toggle Sidebar button */
+
+::deep .nav-toggler.close {
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='black' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem;
+}
+
+::deep .nav-toggler.open {
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3crect /%3e%3cpath stroke='black' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M7 7L23 23M7 23L23 7'/%3e%3c/svg%3e") no-repeat center/1.75rem;
+}
+
+    ::deep .nav-toggler.open.locked:before {
+        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'  width='1rem' height='1rem'%3E%3Cpath stroke='black' stroke-width='0.2' d='M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9069372 8 4 8.9069372 4 10 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 10 C 20 8.9069372 19.093063 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 6 10 L 18 10 L 18 20 L 6 20 L 6 10 z M 12 13 C 10.9 13 10 13.9 10 15 C 10 16.1 10.9 17 12 17 C 13.1 17 14 16.1 14 15 C 14 13.9 13.1 13 12 13 z'/%3E%3C/svg%3E");
+        position: absolute;
+        top: 0.25rem;
+        right: 0.25rem;
+    }
+
+
+        .dark ::deep .nav-toggler.close {
+            background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem !important;
+        }
+
+        .dark ::deep .nav-toggler.open {
+            background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3crect /%3e%3cpath stroke='white' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M7 7L23 23M7 23L23 7'/%3e%3c/svg%3e") no-repeat center/1.75rem !important;
+        }
+
+            .dark ::deep .nav-toggler.open.locked:before {
+                content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'  width='1rem' height='1rem'%3E%3Cpath stroke='white' stroke-width='0.2' fill='white' d='M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9069372 8 4 8.9069372 4 10 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 10 C 20 8.9069372 19.093063 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 6 10 L 18 10 L 18 20 L 6 20 L 6 10 z M 12 13 C 10.9 13 10 13.9 10 15 C 10 16.1 10.9 17 12 17 C 13.1 17 14 16.1 14 15 C 14 13.9 13.1 13 12 13 z'/%3E%3C/svg%3E");
+            }
+        
 
 
 
 /* Dashboard layout */
-
 ::deep .dashboard-container {
-    padding:10px;
+   padding: 10px;
 }
+
+    .dark ::deep .dashboard-container, .dark ::deep .e-dashboard-gridline-table {
+        background: black !important;
+    }
 
 ::deep .e-dashboardlayout {
     position: relative;
@@ -79,12 +129,23 @@
     text-align: center;
     padding: 10px !important;
     height: auto !important;
+    background: whitesmoke;
 }
+
+    .dark ::deep .e-panel-header {
+        background: #2f2e2d;
+    }
+    
 
 ::deep .e-panel-content {
     text-align: center;
     padding-bottom: 20px;
+    background:white;
 }
+
+    .dark ::deep .e-panel-content {
+        background: rgb(27, 26, 25);
+    }
 
 
 ::deep .panel {
@@ -92,4 +153,3 @@
     height: 100%;
     overflow: hidden;
 }
-

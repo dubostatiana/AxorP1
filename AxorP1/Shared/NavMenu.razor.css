@@ -39,22 +39,7 @@
     outline: none;
 }
 
-    ::deep .nav-toggler.close {
-        background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='black' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
-    }
-
-    ::deep .nav-toggler.open {
-        background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3crect /%3e%3cpath stroke='black' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M7 7L23 23M7 23L23 7'/%3e%3c/svg%3e") no-repeat center/1.75rem rgba(255, 255, 255, 0.1);
-    }
-
-        ::deep .nav-toggler.open.locked:before {
-            content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'  width='1rem' height='1rem'%3E%3Cpath stroke='black' stroke-width='0.2' d='M 12 1 C 8.6761905 1 6 3.6761905 6 7 L 6 8 C 4.9069372 8 4 8.9069372 4 10 L 4 20 C 4 21.093063 4.9069372 22 6 22 L 18 22 C 19.093063 22 20 21.093063 20 20 L 20 10 C 20 8.9069372 19.093063 8 18 8 L 18 7 C 18 3.6761905 15.32381 1 12 1 z M 12 3 C 14.27619 3 16 4.7238095 16 7 L 16 8 L 8 8 L 8 7 C 8 4.7238095 9.7238095 3 12 3 z M 6 10 L 18 10 L 18 20 L 6 20 L 6 10 z M 12 13 C 10.9 13 10 13.9 10 15 C 10 16.1 10.9 17 12 17 C 13.1 17 14 16.1 14 15 C 14 13.9 13.1 13 12 13 z'/%3E%3C/svg%3E");
-            position: absolute;
-            top: 0.25rem;
-            right: 0.25rem;
-        }
-        
-        
+            
 
 /* Nav Items */
 
@@ -70,6 +55,10 @@
     color: black;
 }
 
+    .dark .icons {
+        color:white;
+    }
+
 ::deep .nav-link {
     white-space: nowrap;
 }
@@ -81,38 +70,52 @@
 }
 
 
-    .nav-item:first-of-type {
-        padding-top: 0rem;
+.nav-item:first-of-type {
+   padding-top: 0rem;
+}
+
+.nav-item:last-of-type {
+   padding-bottom: 0.5rem;
+}
+
+.nav-item ::deep a {
+    color: black;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    line-height: 3rem;
+    transition: 0.4s border-color linear;
+    border: 1px solid transparent;
+    border-radius: 5px;
+
+}
+
+    .dark .nav-item ::deep a {
+            color: white;
     }
 
-    .nav-item:last-of-type {
-        padding-bottom: 0.5rem;
+.nav-item ::deep a.active {
+      background-color: lightgrey !important ;
+}
+
+    .dark .nav-item ::deep a.active {
+        background-color: #434140 !important;
     }
 
-    .nav-item ::deep a {
-        color: dimgrey;
-        border-radius: 4px;
-        height: 3rem;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
+
+.nav-item ::deep a:hover {
+    border-color: #9d9d9d;
+}
+
+    .dark .nav-item ::deep a:hover {
+          border-color: dimgrey;
     }
 
-        .nav-item ::deep a.active {
-            background-color: lightgrey !important ;
-            color: black;
-        }
-
-        .nav-item ::deep a:hover {
-            border: 1px solid grey;
-            color: black;
-        }
 
 .nav-text.close {
     display: none;
     position: absolute;
 }
-
 
 
 /* Style the scrollbar for WebKit/Blink browsers (Chrome, Safari, Opera) */

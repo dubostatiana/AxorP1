@@ -1,4 +1,6 @@
-﻿@inject ILogger<RangeComponent> Logger
+﻿@using AxorP1.Services
+@inject ILogger<RangeComponent> Logger
+@inject ThemeProvider ThemeProvider
 
 @* RANGE NAVIGATOR COMPONENT *@
 
@@ -6,7 +8,7 @@
 {
     <div class="rangeContainer">
         <div class="rangeNavigator">
-                <SfRangeNavigator @ref=RangeRef Id="rangeNav" Theme="@RangeTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%" >
+                <SfRangeNavigator @ref=RangeRef Id="rangeNav" Theme="@ThemeProvider.AppTheme" @bind-Value="@value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Interval="1" IntervalType="RangeIntervalType.Years" Width="100%" Height="100%" >
 
                     <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
                     <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
@@ -22,7 +24,7 @@
         </div>
 
         <div class="rangeChart">
-                <SfChart @ref="ChartRef" ID="rangeNavChart" Theme="@RangeTheme" Width="100%" Height="100%" >
+                <SfChart @ref="ChartRef" ID="rangeNavChart" Theme="@ThemeProvider.AppTheme" Width="100%" Height="100%" >
 
                     <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
 
@@ -60,7 +62,6 @@
 
     private bool IsParentCreated { get; set; }  // Initiate the render only if the parent has been created
 
-    [Parameter] public Syncfusion.Blazor.Theme RangeTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
     [Parameter] public IEnumerable<object> DataSource { get; set; } = new List<object>();
 
     private string XName = nameof(Station.DateTime);
@@ -93,12 +94,6 @@
 
     public async void Refresh()
     {
-
-        if (!IsParentCreated)
-        {
-            IsParentCreated = true;
-            StateHasChanged();
-        }
         //  Parent Layout is determined after a delay,
         //  a delay must be provided before refreshing the Range component
         await Task.Delay(500);
@@ -111,6 +106,7 @@
                 // Refreshing RangeNavigator two times for better render
                 await RangeRef?.RefreshAsync();
                 await RangeRef?.RefreshAsync();
+
             }
 
             if(ChartRef != null)
@@ -123,6 +119,16 @@
         {
             Logger.LogError($"Error trying to Refresh RangeComponent : {ex.Message}\n{ex.StackTrace}");
         }    
+    }
+
+    public void StateChanged()
+    {
+        if (!IsParentCreated)
+        {
+            IsParentCreated = true;
+        }
+
+        StateHasChanged();
     }
 
 

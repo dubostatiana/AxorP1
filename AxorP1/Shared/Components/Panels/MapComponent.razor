@@ -1,11 +1,13 @@
-﻿@typeparam MarkerTValue
+﻿@using AxorP1.Services
+@typeparam MarkerTValue
 @inject ILogger<MapComponent<MarkerTValue>> Logger
+@inject ThemeProvider ThemeProvider
 
 @* MAP COMPONENT *@
 
 @if (IsParentCreated)
 {
-    <SfMaps @ref="MapRef" ID="@MapId" Theme="@MapTheme" Width="100%" Height="100%">
+    <SfMaps @ref="MapRef" ID="@MapId" Theme="@ThemeProvider.AppTheme" Width="100%" Height="100%">
 
         <MapsEvents OnMarkerClick="@OnMarkerClickEvent"></MapsEvents>
         <MapsTitleSettings Text="@Title"></MapsTitleSettings>
@@ -42,8 +44,6 @@
     private SfMaps? MapRef;
     private bool IsParentCreated { get; set; } = false;  // Initiate the render of the Maps component only if the parent has been created
 
-    [Parameter] public Syncfusion.Blazor.Theme MapTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
-
     [Parameter] public string MapId { get; set; } = string.Empty;
     [Parameter] public string Title { get; set; } = string.Empty;
     [Parameter] public bool EnableZoom { get; set; } = true;
@@ -56,12 +56,6 @@
 
     public async void Refresh()
     {
-
-        if (!IsParentCreated)
-        {
-            IsParentCreated = true;
-            StateHasChanged();
-        }
 
         //  Parent Layout is determined after a delay,
         //  a delay must be provided before refreshing the Maps component
@@ -80,10 +74,20 @@
         {
             Logger.LogError($"Error trying to Refresh MapComponent : {ex.Message}\n{ex.StackTrace}");
         }
-       
-  
     }
 
+    public async void StateChanged()
+    {
+        if (!IsParentCreated)
+        {
+            IsParentCreated = true;
+
+            await Task.Delay(1);
+
+        }
+
+        StateHasChanged();
+    }
 
     public class MapDataSettings
     {

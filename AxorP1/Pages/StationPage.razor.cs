@@ -1,4 +1,5 @@
-﻿using AxorP1.Components;
+﻿using AxorP1.Class;
+using AxorP1.Components;
 using AxorP1.Shared.Components.Panels;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Layouts;
@@ -91,7 +92,9 @@ namespace AxorP1.Pages
             IsDisposed = false;
 
             await Task.Delay(500);
-            await RefreshAllPanelsAsync();
+            await RefreshDashboard();
+            // Initiate components that need to be notified to render
+            PanelsStateChanged();
         }
 
         // Dashboard event OnWindowResize
@@ -118,16 +121,15 @@ namespace AxorP1.Pages
         // Refresh the content of Dashboard panels
         public void RefreshPanel(int index)
         {
+            if (componentsReferences.Count < 1 || IsDisposed) { return; }
+
             // Get the component instance corresponding to the panel
             var component = componentsReferences[index];
 
             // Check the type of the component and perform a refresh
             if (component is RangeComponent rangeComponent)
             {
-                if (!IsDisposed) {
-                    rangeComponent?.Refresh();
-                }
-                
+                 rangeComponent?.Refresh();
             }
         }
 
@@ -141,6 +143,21 @@ namespace AxorP1.Pages
             foreach (var panelNum in Enumerable.Range(0, componentsReferences.Count))
             {
                 RefreshPanel(panelNum);
+            }
+        }
+
+        // Call StateHasChange of Dashboard panels components
+        public void PanelsStateChanged()
+        {
+            if (componentsReferences.Count < 1 || IsDisposed) { return; }
+
+            // Iterate through all panels and call StateHasChanged()
+            foreach (var component in componentsReferences)
+            {
+                if (component is RangeComponent rangeComponent)
+                {
+                    rangeComponent?.StateChanged();
+                }
             }
         }
 

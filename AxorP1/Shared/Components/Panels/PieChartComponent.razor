@@ -1,11 +1,13 @@
-﻿@inject ILogger<PieChartComponent> Logger
+﻿@using AxorP1.Services
+@inject ILogger<PieChartComponent> Logger
+@inject ThemeProvider ThemeProvider
 
 @* PIE CHART FOR STATISTICS  *@
 
 @if (IsParentCreated)
 {
-    <SfAccumulationChart @ref="PieChartRef" ID="@PieChartId" Theme="@ChartTheme" SelectionMode="AccumulationSelectionMode.Point" EnableBorderOnMouseMove="true" EnableAnimation="true" Width="100%" Height="100%">
-
+    <SfAccumulationChart @ref="PieChartRef" ID="@PieChartId" Theme="@ThemeProvider.AppTheme" SelectionMode="AccumulationSelectionMode.Point" EnableBorderOnMouseMove="true" EnableAnimation="true" Width="100%" Height="100%">
+        
         <AccumulationChartTooltipSettings @attributes="@ToolTipAttributes"></AccumulationChartTooltipSettings>
 
         <AccumulationChartLegendSettings @attributes="@LegendAttributes" ToggleVisibility="false" TextWrap="TextWrap.Wrap"  >     
@@ -31,7 +33,6 @@
     private bool IsParentCreated { get; set; } = false;  // Initiate the render only if the parent has been created
 
     [Parameter] public string PieChartId { get; set; } = string.Empty;
-    [Parameter] public Syncfusion.Blazor.Theme ChartTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
 
     [Parameter] public Dictionary<string, object>? ToolTipAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? LegendAttributes { get; set; }
@@ -46,24 +47,29 @@
 
     public void Refresh()
     {
-        if (!IsParentCreated)
+        try 
         {
-            IsParentCreated = true;
-            StateHasChanged();
-        }
-
-        try {
-
             if (PieChartRef != null)
             {
-               PieChartRef?.Refresh();
+                PieChartRef?.Refresh();
             }
         }
         catch(Exception ex)
         {
             Logger.LogError($"Error trying to Refresh PieChartComponent : {ex.Message}\n{ex.StackTrace}");
         }
-}
+
+    }
+
+    public void StateChanged()
+    {
+        if (!IsParentCreated)
+        {
+            IsParentCreated = true;
+        }
+
+        StateHasChanged();
+    }
 
     protected override bool ShouldRender()
     {

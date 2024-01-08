@@ -1,6 +1,10 @@
 ﻿@inherits LayoutComponentBase
+@using AxorP1.Services
+@inject ThemeProvider ThemeProvider
+@inject NavigationManager Navigation
 
-<div class="page">
+
+<div class="page @ThemeProvider.ThemeClass">
 
     <div class="menu">
         <NavMenu />
@@ -24,7 +28,7 @@
                         <Template>
                             @*Theme switcher*@
                             <div class="theme-switch">
-                               <SfSwitch CssClass="btnSwitch" Checked="@isDarkMode" OnLabel="Sombre" OffLabel="Clair" ValueChange="@switchStateChanged"></SfSwitch>
+                                <SfSwitch CssClass="btnSwitch" Checked="@ThemeProvider.isDarkMode" OnLabel="Sombre" OffLabel="Clair" ValueChange="@switchStateChanged"></SfSwitch>
                             </div>
                         </Template>
                     </ToolbarItem>
@@ -47,8 +51,7 @@
 
 @code {
 
-    // Theme Switcher
-    protected bool isDarkMode = false;
+
     protected EventCallback<ChangeEventArgs<bool?>> switchStateChanged;
 
     protected override void OnInitialized()
@@ -56,24 +59,42 @@
         base.OnInitialized();
 
         switchStateChanged = EventCallback.Factory.Create<ChangeEventArgs<bool?>>(this, HandleSwitchStateChanged);
+
+
     }
 
-    protected void HandleSwitchStateChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    protected async Task HandleSwitchStateChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
     {
-        isDarkMode = (bool)args.Checked;
 
-        // (true for dark mode, false for light mode)
-        if (isDarkMode)
+        if (ThemeProvider.isDarkMode != args.Checked)
         {
-            // Dark mode is enabled
-            // AppTheme = Syncfusion.Blazor.Theme.FluentDark;
 
+            var darkTheme = (bool)args.Checked;
 
-        }
-        else
-        {
-            // Light mode is enabled
+            await ThemeProvider.ChangeTheme(darkTheme);
 
+            // Refresh components
+            Navigation.NavigateTo(Navigation.Uri, true);
+            StateHasChanged();
         }
     }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if(firstRender)
+        {
+            if (ThemeProvider.isDarkMode == null)
+            {
+                await ThemeProvider.InitialTheme();
+
+                StateHasChanged();
+            }
+        }
+        
+    }
+
+
 }

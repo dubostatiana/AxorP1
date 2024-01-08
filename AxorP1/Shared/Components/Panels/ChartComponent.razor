@@ -1,49 +1,54 @@
-﻿@inject ILogger<ChartComponent> Logger
+﻿@using AxorP1.Services
+@using System.ComponentModel
+@inject ILogger<ChartComponent> Logger
+@inject ThemeProvider ThemeProvider 
 
 @* CHART COMPONENT *@
+@if (IsParentCreated)
+{
+    <SfChart @ref="ChartRef"  ID="@ChartId" Theme="@ThemeProvider.AppTheme" Width="100%" Height="100%">
 
-<SfChart @ref="ChartRef"  ID="@ChartId" Theme="@ChartTheme" Width="100%" Height="100%">
+        <ChartArea @attributes="@AreaAttributes">
+            <ChartAreaBorder @attributes="@AreaBorderAttributes"></ChartAreaBorder>
+        </ChartArea>
 
-    <ChartArea @attributes="@AreaAttributes">
-        <ChartAreaBorder @attributes="@AreaBorderAttributes"></ChartAreaBorder>
-    </ChartArea>
+        <ChartPrimaryXAxis @attributes="@XAxisAttributes">
+            <ChartAxisMajorTickLines @attributes="XAxisLinesAttributes"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle @attributes="@XAxisLineStyleAttributes"></ChartAxisLineStyle>
+        </ChartPrimaryXAxis>
 
-    <ChartPrimaryXAxis @attributes="@XAxisAttributes">
-        <ChartAxisMajorTickLines @attributes="XAxisLinesAttributes"></ChartAxisMajorTickLines>
-        <ChartAxisLineStyle @attributes="@XAxisLineStyleAttributes"></ChartAxisLineStyle>
-    </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis @attributes="@YAxisAttributes">
+            <ChartAxisMajorTickLines @attributes="@YAxisLinesAttributes"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle @attributes="@YAxisLineStyleAttributes"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
 
-    <ChartPrimaryYAxis @attributes="@YAxisAttributes">
-        <ChartAxisMajorTickLines @attributes="@YAxisLinesAttributes"></ChartAxisMajorTickLines>
-        <ChartAxisLineStyle @attributes="@YAxisLineStyleAttributes"></ChartAxisLineStyle>
-    </ChartPrimaryYAxis>
+        <ChartTooltipSettings @attributes="@ToolTipAttributes"></ChartTooltipSettings>
 
-    <ChartTooltipSettings @attributes="@ToolTipAttributes"></ChartTooltipSettings>
+        <ChartLegendSettings @attributes="@LegendAttributes"></ChartLegendSettings>
 
-    <ChartLegendSettings @attributes="@LegendAttributes"></ChartLegendSettings>
+        <ChartCrosshairSettings @attributes="@CrosshairAttributes">
+            <ChartCrosshairLine @attributes="@CrosshairLineAttributes"></ChartCrosshairLine>
+        </ChartCrosshairSettings>
 
-    <ChartCrosshairSettings @attributes="@CrosshairAttributes">
-        <ChartCrosshairLine @attributes="@CrosshairLineAttributes"></ChartCrosshairLine>
-    </ChartCrosshairSettings>
+       <ChartSeriesCollection>
+            @foreach (var chart in ChartSeriesList)
+            {
+                <ChartSeries @attributes="@chart.SeriesAttributes">
+                    <ChartMarker @attributes="@chart.MarkerAttributes">
+                        <ChartDataLabel @attributes="chart.LabelAttributes" ></ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            }
+        </ChartSeriesCollection>  
 
-   <ChartSeriesCollection>
-        @foreach (var chart in ChartSeriesList)
-        {
-            <ChartSeries @attributes="@chart.SeriesAttributes">
-                <ChartMarker @attributes="@chart.MarkerAttributes">
-                    <ChartDataLabel @attributes="chart.LabelAttributes" ></ChartDataLabel>
-                </ChartMarker>
-            </ChartSeries>
-        }
-    </ChartSeriesCollection>  
-
-</SfChart>
+    </SfChart>
+}
 
 @code {
     private SfChart? ChartRef;
+    private bool IsParentCreated { get; set; } = false; // Initiate the render only if the parent has been created
 
     [Parameter] public string ChartId { get; set; } = string.Empty;
-    [Parameter] public Syncfusion.Blazor.Theme ChartTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent ;
 
     [Parameter] public Dictionary<string, object>? AreaAttributes { get; set; }
     [Parameter] public Dictionary<string, object>? AreaBorderAttributes { get; set; }
@@ -80,6 +85,17 @@
         {
             Logger.LogError($"Error trying to Refresh ChartComponent : {ex.Message}\n{ex.StackTrace}");
         }
+
+    }
+
+    public void StateChanged()
+    {
+        if (!IsParentCreated)
+        {
+            IsParentCreated = true;
+        }
+
+        StateHasChanged();
     }
 
     public class ChartSeriesConfig

@@ -9,18 +9,15 @@
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
-::deep .groupta#actif {
-   background-color: red;
-}
+    ::deep .groupta#actif {
+       background-color: red;
+    }
 
-::deep .groupta#inactif {
-    background-color: yellowgreen;
-}
+    ::deep .groupta#inactif {
+        background-color: yellowgreen;
+    }
 
 /* Localisation Map Component */
-::deep .e-maps {
-    
-}
 
 /* Map Markers  */
 ::deep .e-maps #Map_LayerIndex_0_MarkerGroup path:hover {

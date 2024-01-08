@@ -86,10 +86,12 @@ namespace AxorP1.Pages
 
             await Task.Delay(500);
             await RefreshDashboard();
-
             // Initiate components that need to be notified to render
-            RefreshPanel("panelPieChart");
+            PanelsStateChanged();
             RefreshPanel("panelMap");
+            RefreshPanel("panelPieChart");
+
+
         }
 
         // Dashboard event OnResizeStop
@@ -169,6 +171,35 @@ namespace AxorP1.Pages
             }
         }
 
+        // Call StateHasChange of Dashboard panels components
+        public void PanelsStateChanged()
+        {
+            // Avoid IndexOutOfBound exception
+            if (PanelData.Count != componentsReferences.Count || IsDisposed) { return; }
+
+            // Iterate through all panels and call StateHasChanged()
+            foreach (var panel in componentsReferences)
+            {
+                    // Get the component instance corresponding to the panel
+                    var component = panel.Instance;
+
+                    // Check the type of the component 
+                    if (component is ChartComponent chartComponent)
+                    {
+                        chartComponent.StateChanged();
+                    }
+                    else if (component is MapComponent<StationMapData> mapComponent)
+                    {
+                        mapComponent.StateChanged();
+                    }
+                    else if (component is PieChartComponent pieComponent)
+                    {
+                        pieComponent.StateChanged();
+                    }
+            }
+        }
+        
+
         // Verify if the DashboardLayout panels are stacked
         public async Task IsLayoutStackedAsync()
         {
@@ -220,7 +251,6 @@ namespace AxorP1.Pages
                      Parameters = new Dictionary<string, object>
                      {
                          { "ChartId", "chartTotalProduction" },
-                         { "ChartTheme", AppTheme },
                          { "XAxisAttributes", new Dictionary<string, object>
                              {
                                  {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -259,7 +289,6 @@ namespace AxorP1.Pages
                      Parameters = new Dictionary<string, object>
                      {
                          { "ChartId", "chartGroupProduction" },
-                         { "ChartTheme", AppTheme },
                          { "XAxisAttributes", new Dictionary<string, object>
                              {
                                  {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -310,7 +339,6 @@ namespace AxorP1.Pages
                      Parameters = new Dictionary<string, object>
                      {
                          { "ChartId", "chartFallHeight" },
-                         { "ChartTheme", AppTheme },
                          { "XAxisAttributes", new Dictionary<string, object>
                              {
                                  {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -349,7 +377,6 @@ namespace AxorP1.Pages
                          Parameters = new Dictionary<string, object>
                          {
                              { "ChartId", "chartGridDifferential" },
-                             { "ChartTheme", AppTheme },
                              { "XAxisAttributes", new Dictionary<string, object>
                                  {
                                      {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -427,7 +454,6 @@ namespace AxorP1.Pages
                          Parameters = new Dictionary<string, object>
                          {
                              { "ChartId", "chartTotalFlowRate" },
-                             { "ChartTheme", AppTheme },
                              { "XAxisAttributes", new Dictionary<string, object>
                                  {
                                      {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -466,7 +492,6 @@ namespace AxorP1.Pages
                          Parameters = new Dictionary<string, object>
                          {
                              { "ChartId", "chartGroupFlowRate" },
-                             { "ChartTheme", AppTheme },
                              { "XAxisAttributes", new Dictionary<string, object>
                                  {
                                      {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -517,7 +542,6 @@ namespace AxorP1.Pages
                           Parameters = new Dictionary<string, object>
                           {
                               { "ChartId", "chartStreamLevel" },
-                              { "ChartTheme", AppTheme },
                               { "XAxisAttributes", new Dictionary<string, object>
                                   {
                                       {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -570,7 +594,6 @@ namespace AxorP1.Pages
                           Parameters = new Dictionary<string, object>
                           {
                               { "ChartId", "chartTargetProductionMonth" },
-                              { "ChartTheme", AppTheme },
                               { "XAxisAttributes", new Dictionary<string, object>
                                   {
                                       {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -640,7 +663,6 @@ namespace AxorP1.Pages
                           Parameters = new Dictionary<string, object>
                           {
                               { "ChartId", "chartTargetProductionYear" },
-                              { "ChartTheme", AppTheme },
                               { "XAxisAttributes", new Dictionary<string, object>
                                   {
                                       {"ValueType", Syncfusion.Blazor.Charts.ValueType.Category },
@@ -889,7 +911,6 @@ namespace AxorP1.Pages
                          {
                              { "MapId", "Map" },
                              { "Title", "Canada" },
-                             { "MapTheme", AppTheme },
                              { "OnMarkerClickEvent",  new EventCallback<MarkerClickEventArgs>(this, OnMarkerClickEvent) },
                              {"MarkerAttributes", new Dictionary<string, object>()
                                 {
@@ -923,7 +944,6 @@ namespace AxorP1.Pages
                          Parameters = new Dictionary<string, object>
                          {
                              { "PieChartId", "pieChart" },
-                             { "ChartTheme", AppTheme },
 
                              {"ToolTipAttributes", new Dictionary<string, object>()
                                 {

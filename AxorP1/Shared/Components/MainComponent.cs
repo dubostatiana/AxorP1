@@ -10,6 +10,7 @@ namespace AxorP1.Components
     {
         [Inject] protected DataProvider DataProvider { get; set; }
         [Inject] protected RefProvider RefProvider { get; set; }
+        [Inject] protected ThemeProvider ThemeProvider { get; set; }
         [Inject] protected ILogger<T> Logger { get; set; }
         [Inject] protected NavigationManager NavigationManager { get; set; }
         [Inject] protected IJSRuntime JSRuntime { get; set; }
@@ -21,7 +22,6 @@ namespace AxorP1.Components
         protected List<Station> PastDataSource = new List<Station>();
 
         // App Settings
-        protected static Syncfusion.Blazor.Theme AppTheme { get; set; } = Syncfusion.Blazor.Theme.Fluent;
         protected static int MaxWidth = 799;
         protected static string MediaQuery { get { return "max-width:" + MaxWidth + "px"; } }
 
@@ -62,5 +62,8 @@ namespace AxorP1.Components
                 Logger.LogError($"Error Past Data source assignment: {ex.Message}\n{ex.StackTrace}");
             }
         }
+
+
+       
     }
 }
